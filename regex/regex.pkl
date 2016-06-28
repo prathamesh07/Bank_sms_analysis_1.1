@@ -1,0 +1,946 @@
+(dp0
+S'account_number_regex'
+p1
+(lp2
+cre
+_compile
+p3
+(S'A/C ?\\d+-\\d+[\\*-]+(\\d+)'
+p4
+I0
+tp5
+Rp6
+ag3
+(S' \\*\\*\\d+\\.\\.\\.(\\d+)'
+p7
+I0
+tp8
+Rp9
+ag3
+(S'A/C \\d+-\\d+[X\\*\\.]-(\\d+)'
+p10
+I0
+tp11
+Rp12
+ag3
+(S'ACCOUNT [X\\*\\.]+\\d+[X\\*\\.]+(\\d+)'
+p13
+I0
+tp14
+Rp15
+ag3
+(S'A/C NO [X\\*\\.]+\\d+[X\\*\\.]+(\\d+)'
+p16
+I0
+tp17
+Rp18
+ag3
+(S'CARD ACCOUNT \\d+[X\\*\\.]+(\\d+)'
+p19
+I0
+tp20
+Rp21
+ag3
+(S'YOUR A?/?C? [X\\*\\.]+\\d+[X\\*\\.]+(\\d+)'
+p22
+I0
+tp23
+Rp24
+ag3
+(S'ACCT XX+(\\d+)'
+p25
+I0
+tp26
+Rp27
+ag3
+(S'CARD ENDING -?(\\d+)'
+p28
+I0
+tp29
+Rp30
+ag3
+(S'CARD ENDING WITH -?(\\d+)'
+p31
+I0
+tp32
+Rp33
+ag3
+(S'CREDIT CARD \\d+[NX\\*\\.]+(\\d+)'
+p34
+I0
+tp35
+Rp36
+ag3
+(S'AC NO \\d+[NX\\*\\.]+(\\d+)'
+p37
+I0
+tp38
+Rp39
+ag3
+(S'A/C \\d+[NX\\*\\.]+(\\d+)'
+p40
+I0
+tp41
+Rp42
+ag3
+(S'A/C\\.? NO[\\.:]? ?XX(\\d+)'
+p43
+I0
+tp44
+Rp45
+ag3
+(S'CREDIT CARD XX+(\\d+)'
+p46
+I0
+tp47
+Rp48
+ag3
+(S'CREDITCARD NUMBER XX+(\\d+)'
+p49
+I0
+tp50
+Rp51
+ag3
+(S' A/C NO\\.[X]+(\\d+)'
+p52
+I0
+tp53
+Rp54
+ag3
+(S'A/C NO\\. [NXx\\*\\.]+(\\d+)'
+p55
+I0
+tp56
+Rp57
+ag3
+(S'A/C [NXx\\*\\.]*(\\d+)'
+p58
+I0
+tp59
+Rp60
+ag3
+(S'CARD NO [NXx\\*\\.]+(\\d+)'
+p61
+I0
+tp62
+Rp63
+ag3
+(S'CARD [NX\\*]+ ?(\\d+)'
+p64
+I0
+tp65
+Rp66
+ag3
+(S'CARD NO\\. [Nx\\*X]+(\\d+)'
+p67
+I0
+tp68
+Rp69
+ag3
+(S'CREDITCARD NUMBER X+(\\d+)'
+p70
+I0
+tp71
+Rp72
+ag3
+(S' CARD \\d+[NX\\*/]+(\\d+)'
+p73
+I0
+tp74
+Rp75
+ag3
+(S' CARD (\\d+)'
+p76
+I0
+tp77
+Rp78
+ag3
+(S'AC :? ?[NX\\*/]+(\\d+)'
+p79
+I0
+tp80
+Rp81
+ag3
+(S'ACCOUNT NUMBER [NX\\*]*(\\d+)'
+p82
+I0
+tp83
+Rp84
+ag3
+(S' LOAN A/C [A-Z]{3}(\\d+)'
+p85
+I0
+tp86
+Rp87
+ag3
+(S' ACCOUNT (\\d+)'
+p88
+I0
+tp89
+Rp90
+ag3
+(S'A/C-X(\\d+)X'
+p91
+I0
+tp92
+Rp93
+ag3
+(S'[Ss][bB]-(\\d+)'
+p94
+I0
+tp95
+Rp96
+ag3
+(S'ENDING IN (\\d+) IS'
+p97
+I0
+tp98
+Rp99
+ag3
+(S'ENDING IN (\\d+) WAS'
+p100
+I0
+tp101
+Rp102
+ag3
+(S'[X\\*]{2,16} ? ?(\\d+)'
+p103
+I0
+tp104
+Rp105
+ag3
+(S'[N\\*]{2,16} ? ?(\\d+)'
+p106
+I0
+tp107
+Rp108
+asS'credit_vendor_regex'
+p109
+(lp110
+g3
+(S'TOWARDS ?(.+?) ?VAL'
+p111
+I0
+tp112
+Rp113
+ag3
+(S'INFO[\\.:](.+?) .YOUR'
+p114
+I0
+tp115
+Rp116
+ag3
+(S'BY (.+?) ON'
+p117
+I0
+tp118
+Rp119
+ag3
+(S'DET:(.+?)\\. A/?C'
+p120
+I0
+tp121
+Rp122
+ag3
+(S'BY (.+?)'
+p123
+I0
+tp124
+Rp125
+ag3
+(S'RS \\d+\\.?\\d{0,2} INFO: ?(.+?)$'
+p126
+I0
+tp127
+Rp128
+asS'junk_regex'
+p129
+(lp130
+g3
+(S' ?HTTP ?'
+p131
+I0
+tp132
+Rp133
+ag3
+(S' ?WWW ?'
+p134
+I0
+tp135
+Rp136
+ag3
+(S'^WWW ?'
+p137
+I0
+tp138
+Rp139
+ag3
+(S' ?COM '
+p140
+I0
+tp141
+Rp142
+ag3
+(S' ?COM$'
+p143
+I0
+tp144
+Rp145
+ag3
+(S'^VIN'
+p146
+I0
+tp147
+Rp148
+ag3
+(S'^VPS'
+p149
+I0
+tp150
+Rp151
+ag3
+(S'^ ? ?TPT'
+p152
+I0
+tp153
+Rp154
+ag3
+(S'^ ? ?IIN'
+p155
+I0
+tp156
+Rp157
+ag3
+(S'^ ? ?INB'
+p158
+I0
+tp159
+Rp160
+ag3
+(S'^ ? ?IPS'
+p161
+I0
+tp162
+Rp163
+ag3
+(S'^ ? ?VISAPOS'
+p164
+I0
+tp165
+Rp166
+ag3
+(S'^ +'
+p167
+I0
+tp168
+Rp169
+ag3
+(S'^.{1,2}$'
+p170
+I0
+tp171
+Rp172
+ag3
+(S' PVT '
+p173
+I0
+tp174
+Rp175
+ag3
+(S' INDI?A?(?: |$)'
+p176
+I0
+tp177
+Rp178
+ag3
+(S' SELLE?R?(?: |$)'
+p179
+I0
+tp180
+Rp181
+ag3
+(S' SERVICES?(?: |$)'
+p182
+I0
+tp183
+Rp184
+ag3
+(S' PRIVATE?(?: |$)'
+p185
+I0
+tp186
+Rp187
+ag175
+ag3
+(S' LIMITED '
+p188
+I0
+tp189
+Rp190
+ag3
+(S' LTD '
+p191
+I0
+tp192
+Rp193
+ag3
+(S' IN '
+p194
+I0
+tp195
+Rp196
+ag3
+(S'     .+'
+p197
+I0
+tp198
+Rp199
+ag3
+(S' INTERNET '
+p200
+I0
+tp201
+Rp202
+asS'reference_number_regex'
+p203
+(lp204
+g3
+(S'REFERENCE NUMBER IS:([A-Z0-9]+)'
+p205
+I2
+tp206
+Rp207
+ag3
+(S'REF NO- XXXX(\\d+)'
+p208
+I0
+tp209
+Rp210
+ag3
+(S'REFERENCE NUMBER ?([A-Z0-9]+)'
+p211
+I0
+tp212
+Rp213
+ag3
+(S'NEFT IN UTR ([A-Z0-9]+)'
+p214
+I0
+tp215
+Rp216
+ag3
+(S'REF\\.? NO\\.? ([A-Z0-9]+)'
+p217
+I0
+tp218
+Rp219
+ag3
+(S'REF\\.? NO ?\\.?:? ?([A-Z0-9/-]+)'
+p220
+I0
+tp221
+Rp222
+ag3
+(S'REF(\\d+)'
+p223
+I0
+tp224
+Rp225
+ag3
+(S'REFNO\\. IS (\\d+)'
+p226
+I0
+tp227
+Rp228
+ag3
+(S'REF ID ([A-Z0-9]+)'
+p229
+I0
+tp230
+Rp231
+ag3
+(S'REF ?# ([A-Z0-9]+)'
+p232
+I0
+tp233
+Rp234
+ag3
+(S'([A-Z0-9]+)IS YOUR REFERENCE NUMBER'
+p235
+I0
+tp236
+Rp237
+ag3
+(S'REFERENCE NO IS ([A-Z0-9-]+)'
+p238
+I0
+tp239
+Rp240
+ag3
+(S'REF\\.? NO\\.? ?IS ([A-Z0-9]+)'
+p241
+I0
+tp242
+Rp243
+ag3
+(S' REF\\. ([A-Z0-9-]+)'
+p244
+I0
+tp245
+Rp246
+ag3
+(S'REF COMP #? ([A-Z0-9-]+)'
+p247
+I0
+tp248
+Rp249
+ag3
+(S'REF\\. No\\. [A-Za-z]+ IS:(\\d+)'
+p250
+I0
+tp251
+Rp252
+ag3
+(S'REF ID ([A-Z0-9-]+)'
+p253
+I0
+tp254
+Rp255
+ag3
+(S'REF:? ?([A-Z0-9-]+)'
+p256
+I0
+tp257
+Rp258
+ag3
+(S'MMT\\*(\\d+)\\*\\*'
+p259
+I0
+tp260
+Rp261
+asS'debit_vendor_regex'
+p262
+(lp263
+g3
+(S' \\d{1,2}-\\d{1,2}-\\d{4} ON ACCOUNT OF(.+?)\\. COMBINED AVAILABLE '
+p264
+I0
+tp265
+Rp266
+ag3
+(S' \\d{1,2}-\\d{1,2}-\\d{4} TOWARDS (.+?)\\. COMBINED AVAILABLE '
+p267
+I0
+tp268
+Rp269
+ag3
+(S' AT (.+?) ON '
+p270
+I0
+tp271
+Rp272
+ag3
+(S'AT (.+?) IN USING CARD NO'
+p273
+I0
+tp274
+Rp275
+ag3
+(S' AT (.+?)\\. AVBL'
+p276
+I0
+tp277
+Rp278
+ag3
+(S' AT (.+?)\\. AVAILABLE'
+p279
+I0
+tp280
+Rp281
+ag3
+(S' AT (.+?) OF KARNATAKA'
+p282
+I0
+tp283
+Rp284
+ag3
+(S' AT (.+?) ?\\.AVL BAL'
+p285
+I0
+tp286
+Rp287
+ag3
+(S' AT (.+?) TXN'
+p288
+I0
+tp289
+Rp290
+ag3
+(S'\\d+\\.\\d+ AT (.+?) WITH YOUR '
+p291
+I0
+tp292
+Rp293
+ag3
+(S'\\d{1,2}[A-Z]{3} AT (.+?) \\. CALL '
+p294
+I0
+tp295
+Rp296
+ag3
+(S'\\d+AT(.+?) ?TXN#'
+p297
+I0
+tp298
+Rp299
+ag3
+(S' FOR (.+?) ?TXN'
+p300
+I0
+tp301
+Rp302
+ag3
+(S' FOR (.+?) ?PAYMENT '
+p303
+I0
+tp304
+Rp305
+ag3
+(S' FOR (.+?)\\.MAINTAIN'
+p306
+I0
+tp307
+Rp308
+ag3
+(S' FOR (.+?) - ACCOUNT '
+p309
+I0
+tp310
+Rp311
+ag3
+(S' INFO ?[\\.-](.+?)\\. YOUR'
+p312
+I0
+tp313
+Rp314
+ag3
+(S' AT (.+?)\\. FINAL'
+p315
+I0
+tp316
+Rp317
+ag3
+(S' -(.+?)\\. AVL'
+p318
+I0
+tp319
+Rp320
+ag3
+(S' FROM (.+?)\\. AVAILABLE '
+p321
+I0
+tp322
+Rp323
+ag3
+(S' AT (.+?)[\\.:] ?COMBINED'
+p324
+I0
+tp325
+Rp326
+ag3
+(S' (?:TOWARDS|ACCOUNT OF) (.+?)[\\.:] ?COMBINED'
+p327
+I0
+tp328
+Rp329
+ag3
+(S' AT (.+?)\\. CALL'
+p330
+I0
+tp331
+Rp332
+ag3
+(S' FROM (.+?) ON '
+p333
+I0
+tp334
+Rp335
+ag3
+(S' AT (.+?) USING'
+p336
+I0
+tp337
+Rp338
+ag3
+(S' AT (.+?)\\. TOLLFREE '
+p339
+I0
+tp340
+Rp341
+ag3
+(S' DET:(.+?)\\. ?A/C'
+p342
+I0
+tp343
+Rp344
+ag3
+(S' DETAILS: (.+?)TOT BAL'
+p345
+I0
+tp346
+Rp347
+ag3
+(S' DETAILS: (.+?) TXN'
+p348
+I0
+tp349
+Rp350
+ag3
+(S' DETAILS: (.+?) TO ACCOUNT'
+p351
+I0
+tp352
+Rp353
+ag3
+(S' DET:(.+?)\\. ?IF NOT '
+p354
+I0
+tp355
+Rp356
+ag3
+(S' AT (.+?) ?IS APP'
+p357
+I0
+tp358
+Rp359
+ag3
+(S'/-(.+?)-CLEAR'
+p360
+I0
+tp361
+Rp362
+ag3
+(S'/(.+?)CLEAR BALANCE'
+p363
+I0
+tp364
+Rp365
+ag3
+(S'-POS-(.+?)-BALANCE'
+p366
+I0
+tp367
+Rp368
+ag3
+(S'-ECOM-(.+?)-BALANCE'
+p369
+I0
+tp370
+Rp371
+ag3
+(S'ECOM/(.+?)\\. GIVE A '
+p372
+I0
+tp373
+Rp374
+ag3
+(S'-NFS-(.+?)-BALANCE'
+p375
+I0
+tp376
+Rp377
+ag3
+(S'\\. (.+?)\\. CLEAR BAL '
+p378
+I0
+tp379
+Rp380
+ag3
+(S' AT(.+?)\\.AVAILABLE'
+p381
+I0
+tp382
+Rp383
+ag3
+(S' ON ACCOUNT OF (.+?) @'
+p384
+I0
+tp385
+Rp386
+ag3
+(S' (CHQ PAID .+?) VALUE'
+p387
+I0
+tp388
+Rp389
+ag3
+(S' TOWARDS (.+?) VALUE'
+p390
+I0
+tp391
+Rp392
+ag3
+(S' AT (.+?)\\.  ?THIS'
+p393
+I0
+tp394
+Rp395
+ag3
+(S'TXN:(.+?)\\. ?A/C'
+p396
+I0
+tp397
+Rp398
+ag3
+(S' ON(.+?) FOR RS\\.'
+p399
+I0
+tp400
+Rp401
+ag3
+(S' TRANSACTION ON (.+?) IS'
+p402
+I0
+tp403
+Rp404
+ag3
+(S' AT(.+?) IND '
+p405
+I0
+tp406
+Rp407
+ag3
+(S' TRANSACTION (.+?) IS:'
+p408
+I0
+tp409
+Rp410
+ag3
+(S' TO PAY YOUR (.+?) BILL FOR\\. TOTAL '
+p411
+I0
+tp412
+Rp413
+ag3
+(S' \\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2} [Ii]nfo: ?(.+?)$'
+p414
+I0
+tp415
+Rp416
+ag3
+(S' RS \\d+\\.?\\d+ INFO: ?(.+?)$'
+p417
+I0
+tp418
+Rp419
+ag3
+(S'RS \\d+\\.\\d+ ON \\d+-\\w+-\\d+ AT (.+?)$'
+p420
+I0
+tp421
+Rp422
+ag3
+(S'^YOUR (.+?) OF '
+p423
+I0
+tp424
+Rp425
+ag3
+(S' INFO: ?(.+?)\\. TOTAL'
+p426
+I0
+tp427
+Rp428
+ag3
+(S'\\d{1,2}:\\d{1,2}:\\d{1,2} INFO: ?(.+?)$'
+p429
+I0
+tp430
+Rp431
+ag128
+ag3
+(S'\\d{1,2}-\\w{3}-\\d{1,2} AT (.+?).$'
+p432
+I0
+tp433
+Rp434
+ag3
+(S'-DD ISSUE,(.+?)TOT AVBL '
+p435
+I0
+tp436
+Rp437
+asS'money_regex'
+p438
+(lp439
+g3
+(S'(?:^| |:|\\W)(?:INR|RS|USD|SGD)\\W?\\W?\\d+\\.?\\d{0,2}'
+p440
+I0
+tp441
+Rp442
+ag3
+(S'(?:BALANCE ?I?S?:? | IS:? ?)\\W?\\W?\\d+\\.?\\d{0,2}'
+p443
+I0
+tp444
+Rp445
+ag3
+(S'(?:^| |:|\\W)\\d+\\.?\\d{0,2} (?:INR|RS|USD|SGD)'
+p446
+I0
+tp447
+Rp448
+ag3
+(S'BALANCE ?I?S?:? \\W?\\W?\\d+\\.?\\d{0,2}'
+p449
+I0
+tp450
+Rp451
+ag3
+(S'X\\d+: (\\d+.?\\d*) \\* USE'
+p452
+I0
+tp453
+Rp454
+ag3
+(S'LEDG BAL \\d+\\.?\\d{0,2}'
+p455
+I0
+tp456
+Rp457
+ag3
+(S'BAL ?\\W ?\\d+\\.?\\d{0,2}'
+p458
+I0
+tp459
+Rp460
+asS'debit_2_vendor_regex'
+p461
+(lp462
+g113
+ag3
+(S' BENEFICIARY : ?(.+?) ?ON'
+p463
+I0
+tp464
+Rp465
+ag3
+(S'ISSUE,(.+?) TOT '
+p466
+I0
+tp467
+Rp468
+ag3
+(S' FOR (.+?) TXN '
+p469
+I0
+tp470
+Rp471
+ag3
+(S'^(.+?) TRANSACTION '
+p472
+I0
+tp473
+Rp474
+as.
