@@ -57,6 +57,6 @@ def balance_sms_adjustment_func(bank_sms_df):
 	#Sorting according to 'CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'
 	bank_sms_df.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)
 
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_with_balance_sms_adjusted.csv', index=False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_with_balance_sms_adjusted.csv', index=False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df

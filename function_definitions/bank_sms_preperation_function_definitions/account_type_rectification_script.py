@@ -77,7 +77,7 @@ def account_type_rectification_func(bank_sms_df):
 	account_type_rectified = account_type_rectified.append(bank_sms_df_NA)
 
 	#Sorting dataframe according to user-bank-account-timestamp
-	account_type_rectified.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)	
-	account_type_rectified.to_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', index=False)
+	account_type_rectified.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)
+	account_type_rectified.to_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified.csv', index=False)
 	account_type_rectified.index = range(len(account_type_rectified.index.values))
 	return account_type_rectified

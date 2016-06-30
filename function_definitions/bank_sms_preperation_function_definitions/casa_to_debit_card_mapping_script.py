@@ -49,7 +49,7 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 		account_number_account_type_dict = {}
 		
 		
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', index=False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified2.csv', index=False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df
 	
