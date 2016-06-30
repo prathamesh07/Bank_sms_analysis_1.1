@@ -22,6 +22,7 @@ from keyphrases import Loan_keyphrases_list
 
 from keyphrases import NEFT_keyphrases_list
 from keyphrases import NetBanking_keyphrases_list
+from keyphrases import Cheque_keyphrases_list
 
 from keyphrases import Account_Number_False_Alarm_keyphrases_list
 
@@ -272,5 +273,14 @@ def isNetBanking(message):
 			return True 
 
 	return False
-	
+
+def isCheque(message):
+	global Cheque_keyphrases_list
+	for key in Cheque_keyphrases_list :
+		key = key.split('|')
+		truthvalue = [keyword in message for keyword in key]
+		if False not in truthvalue :
+			return True 
+
+	return False
 

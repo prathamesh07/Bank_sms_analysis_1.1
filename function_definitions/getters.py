@@ -23,6 +23,7 @@ from checkers import isLoan
 
 from checkers import isNEFT
 from checkers import isNetBanking
+from checkers import isCheque
 
 from checkers import isAccount_Number_False_Alarm
 

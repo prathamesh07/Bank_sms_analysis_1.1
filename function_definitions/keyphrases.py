@@ -158,8 +158,14 @@ NetBanking_keyphrases_list = []
 fp = open( "data_files/sms_classification_level2_keywords/financial/bank_level2_classification/transaction_instrument_keywords/Net_banking",'r')
 for key in fp.read().split('\n'):
 	if key !="":
-		NetBanking_keyphrases_list.append(str(key))	
+		NetBanking_keyphrases_list.append(str(key))
 		
+
+Cheque_keyphrases_list = []
+fp = open( "data_files/sms_classification_level2_keywords/financial/bank_level2_classification/transaction_instrument_keywords/Cheque",'r')
+for key in fp.read().split('\n'):
+	if key !="":
+		Cheque_keyphrases_list.append(str(key))		
 
 
 
