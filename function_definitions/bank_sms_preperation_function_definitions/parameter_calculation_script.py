@@ -132,6 +132,6 @@ def parameter_calculation_func(bank_sms_df):
 		
 		CASA_parameters = CASA_parameters.append(to_be_appended)
 		
-	CASA_parameters.to_csv('data_files/intermediate_output_files/CASA_parameters.csv', index=False)
+	CASA_parameters.to_csv('data_files/intermediate_output_files/banks/CASA_parameters.csv', index=False)
 	return CASA_parameters
 	

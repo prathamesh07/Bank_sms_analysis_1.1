@@ -54,7 +54,7 @@ def post_parameter_calculation(bank_sms_df):
 			pass
 
 
-	bank_sms_df.to_csv('data_files/intermediate_output_files/Post_CASA_parameters.csv',index = False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/Post_CASA_parameters.csv',index = False)
 		
 	return bank_sms_df
 

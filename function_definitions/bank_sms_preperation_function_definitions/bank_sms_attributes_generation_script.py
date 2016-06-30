@@ -42,6 +42,6 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 
 	bank_sms_df = bank_sms_df.sort_values(by=["CustomerID", "AccountNo", "MessageTimestamp"], ascending=[True, True, True])
 
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_classified.csv',index = False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_classified.csv',index = False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df

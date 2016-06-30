@@ -96,7 +96,7 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 					bank_sms_df.at[idx+1, 'ConsecutiveTxnTimespan'] = error_timespan
 					
 					
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_filtered_flaged.csv', index=False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_filtered_flaged.csv', index=False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df
 		

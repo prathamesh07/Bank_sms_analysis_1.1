@@ -45,6 +45,6 @@ def duplicate_flag_generation_func(bank_sms_df):
 	bank_sms_df = bank_sms_df[['SmsID', 'CustomerID', 'BankName', 'AccountNo', 'LinkedDebitCardNumber', 'AccountType', 'MessageSource', 'Message', 'MessageTimestamp', 'ReferenceNumber', 'MessageType', 'Currency_1', 'Amt_1', 'Currency_2', 'Amt_2', 'Currency_3', 'Amt_3', 'Vendor', 'RepeatedTxnFlag']]
 
 	print 'count =', count
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_flaged.csv',index = False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_flaged.csv',index = False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df
