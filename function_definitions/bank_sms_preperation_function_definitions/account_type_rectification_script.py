@@ -1,7 +1,6 @@
 import pandas as pd
 from time import sleep
 import operator
-#import function_definitions.bank_sms_preperation_function_definitions.sms_reading_script as sms_reading_script
 
 """
 This script replaces the account type of a account with account type in which majority of the sms for that account are tagged \
@@ -73,18 +72,12 @@ def account_type_rectification_func(bank_sms_df):
 			account_type_rectified.at[idx, 'AccountType'] = actual_account_type
 		
 	
-	account_type_rectified.to_csv('temp.csv', index=False)
-	
 	#Appending _NA_ accounts to rectified account dataframe
 	bank_sms_df_NA = bank_sms_df[bank_sms_df['AccountNo'] == '_NA_']
 	account_type_rectified = account_type_rectified.append(bank_sms_df_NA)
-	
-	account_type_rectified.to_csv('temp2.csv', index=False)
 
 	#Sorting dataframe according to user-bank-account-timestamp
-	account_type_rectified.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)
-
-		
+	account_type_rectified.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)	
 	account_type_rectified.to_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', index=False)
 	account_type_rectified.index = range(len(account_type_rectified.index.values))
 	return account_type_rectified

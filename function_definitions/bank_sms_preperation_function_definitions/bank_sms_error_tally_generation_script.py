@@ -1,6 +1,5 @@
 import pandas as pd
 import time
-#import function_definitions.bank_sms_preperation_function_definitions as .
 
 def bank_sms_error_tally_generation_func(bank_sms_df):
 
@@ -89,7 +88,7 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 					error_timespan = (bank_sms_df.at[idx+1,'MessageTimestamp'] - bank_sms_df.at[idx,'MessageTimestamp']).days
 					error = bank_sms_df.at[idx+1, 'Amt_2'] - bank_sms_df.at[idx+1, 'Amt_2_calculated']
 					
-					if abs(error) < 0.01 :
+					if abs(error) < 1.0 :
 						error = 0
 					
 					bank_sms_df.at[idx+1, 'Error'] = error

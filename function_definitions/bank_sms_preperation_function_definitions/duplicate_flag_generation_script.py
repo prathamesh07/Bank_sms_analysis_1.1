@@ -1,5 +1,4 @@
 import pandas as pd
-#import function_definitions.bank_sms_preperation_function_definitions.sms_reading_script as sms_reading_script
 
 def duplicate_flag_generation_func(bank_sms_df):
 	bank_sms_df['RepeatedTxnFlag'] = 0

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import pandas as pd
-#import function_definitions.bank_sms_preperation_function_definitions.sms_reading_script as sms_reading_script
+
 
 def balance_sms_adjustment_func(bank_sms_df):
 	bank_sms_df = bank_sms_df[bank_sms_df['MessageType'] == 'Balance']

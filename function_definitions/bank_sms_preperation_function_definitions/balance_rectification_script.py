@@ -1,5 +1,4 @@
 import pandas as pd
-#import function_definitions.bank_sms_preperation_function_definitions as .
 
 def balance_rectification_func(bank_sms_df):
 	#Creating bulk_transaction_flag

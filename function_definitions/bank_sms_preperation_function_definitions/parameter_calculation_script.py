@@ -1,6 +1,5 @@
 from datetime import datetime
 import pandas as pd
-#import function_definitions.bank_sms_preperation_function_definitions as .
 
 #---------------------------------------------------------------------------------------------------
 

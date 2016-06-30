@@ -2,7 +2,6 @@ from datetime import datetime
 import pandas as pd
 import re
 
-#import function_definitions.bank_sms_preperation_function_definitions.sms_reading_script as sms_reading_script
 from function_definitions.getters import getData
 from function_definitions.getters import getBankName
 from function_definitions.sms_level1_classification_func import bank_sms_filtering_func

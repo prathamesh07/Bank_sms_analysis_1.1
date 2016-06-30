@@ -1,5 +1,4 @@
 import pandas as pd
-#import function_definitions.bank_sms_preperation_function_definitions.sms_reading_script as sms_reading_script
 
 def casa_to_debit_card_mapping_func(bank_sms_df):
 	#Creating a new column LinkedDebitCardNumber and intializing with _NA_
@@ -34,7 +33,7 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 				account_number_account_type_dict[account_type].append(account_number)
 		
 		try:
-			if len(account_number_account_type_dict['CASA']) == 1 and len(account_number_account_type_dict['Debit_Card']) == 1 and (account_number_account_type_dict['Debit_Card'][0] != account_number_account_type_dict['CASA'][0]):
+			if len(account_number_account_type_dict['CASA']) == 1 and len(account_number_account_type_dict['Debit_Card']) == 1:
 				for idx in user_bank_combinations_idx_dict[key]:
 					account_type = bank_sms_df.at[idx, 'AccountType']
 					if account_type == 'CASA' :
@@ -50,7 +49,7 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 		account_number_account_type_dict = {}
 		
 		
-	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified2.csv', index=False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', index=False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
 	return bank_sms_df
 	
