@@ -13,13 +13,13 @@ def getNumberOfTxns(l):
 	
 	for i in l:
 		messageType = bank_sms_filtered_flaged_CASA.at[i, 'MessageType'] 
-		print messageType 
+		#print messageType 
 		if messageType in ['Debit', 'ATM']:
 			TotalDebitTxns += 1
 		elif messageType == 'Credit':
 			TotalCreditTxns += 1
 		
-	print 	messageType, TotalCreditTxns 
+	#print 	messageType, TotalCreditTxns 
 	
 	return (TotalCreditTxns + TotalDebitTxns , TotalDebitTxns, TotalCreditTxns)
 
@@ -35,9 +35,7 @@ def getNumberOfBulkTxns(l):
 	
 def getPercentOfTxns(TotalDebitTxns, TotalCreditTxns):
 	try:
-		print type(TotalDebitTxns) , TotalDebitTxns , "--------------------"
-		print type(TotalCreditTxns) , TotalCreditTxns , "--------------------"
-	
+		
 		PercentOfDebitTxns = (float(TotalDebitTxns)/(TotalDebitTxns+TotalCreditTxns))*100
 		PercentOfCreditTxns = (float(TotalCreditTxns)/(TotalDebitTxns+TotalCreditTxns))*100
 	except ZeroDivisionError:
@@ -104,7 +102,7 @@ def parameter_calculation_func(bank_sms_df):
 	CASA_parameters = pd.DataFrame()
 
 	for i in range(len(bank_sms_filtered_flaged_CASA)-1):
-		print i
+		print 9 , '\t\t' ,  i
 		#print bank_sms_filtered_flaged_CASA.at[i,'AccountType']
 
 		CustomerID_current = int(bank_sms_filtered_flaged_CASA.at[i, 'CustomerID'])

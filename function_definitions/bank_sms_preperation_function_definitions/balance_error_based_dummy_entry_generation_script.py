@@ -7,7 +7,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 	#dummy_sms = pd.DataFrame()
 	dummy_sms_df = pd.DataFrame()
 	for idx, row in bank_sms_df.iterrows():
-		print idx
+		print 8 , '\t\t' ,  idx
 		if idx == 0 or row['Error'] == '_NA_' or str(row['Error']) == '0':
 			continue
 		else:
@@ -20,7 +20,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			AccountType = row['AccountType']
 			MessageSource = row['MessageSource']
 			ReferenceNumber = '_NA_'
-			MessageType = 'Credit' if row['Error']>=0 else 'Debit'
+			MessageType = 'Credit' if float(row['Error']) >=0 else 'Debit'
 			Currency_1 = row['Currency_1']
 			Amt_1 = abs(float(row['Error']))
 			Message = 'Dummy entry of '+Currency_1+str(Amt_1)+' is added.'
@@ -55,7 +55,6 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			bank_sms_df = bank_sms_df.append(to_be_appended)
 			
 			#making a seperate df of dummy entries
-			print dummy_sms_df.head(10)
 			dummy_sms_df = dummy_sms_df.append(to_be_appended)
 	
 	#Sorting the dataframe

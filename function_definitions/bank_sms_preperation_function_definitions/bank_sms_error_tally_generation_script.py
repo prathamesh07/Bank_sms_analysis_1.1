@@ -18,49 +18,46 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 
 	#To consider balance sms in our calculations, we are overwriting Amt_2 of balance message with Amt_1 and making Amt_1 as 0.
 	for idx, row in bank_sms_df.iterrows():
-		print idx, type(idx)
+		print 6, '\t\t',idx
+		#print row['LinkedDebitCardNumber'], type(row['LinkedDebitCardNumber'])
+		#raw_input()
 		if row['MessageType'] == 'Balance':
-			print row
-			(bank_sms_df).at[idx, "Amt_2"] = float(row['Amt_1'])
-			(bank_sms_df).at[idx, "Amt_1"] = 0
-			print '--------------------------------------------------------------------------------------'
+			#print row
+			bank_sms_df.at[idx, "Amt_2"] = float(row['Amt_1'])
+			bank_sms_df.at[idx, "Amt_1"] = 0
+			#print '--------------------------------------------------------------------------------------'
 
 
 	user_account_combinations_dict = {}
 
 	for idx, row in bank_sms_df.iterrows():
-		print idx, 'iiiiiiiiiiiiiiiiiiiiiii'
-		#print bank_sms_df.at[i, 'CustomerID'], '**********'
-		#print bank_sms_df.at[i, 'BankName'], '$$$$$$$$$$$$$'
-		#print bank_sms_df.at[i, 'AccountNo'], '%%%%%%%%%%%%%%%'
-		ti = int(round(time.time() * 1000))
+		print 6, '\t\t',idx
+		#ti = int(round(time.time() * 1000))
 		#row = bank_sms_df.at[i]
 		key = str(row['CustomerID'])+str(row['BankName'])+str(row['AccountNo'])
-		tf = int(round(time.time() * 1000))
+		#tf = int(round(time.time() * 1000))
 			
 			
-		print "Getting Key time : " , tf - ti 	
+		#print "Getting Key time : " , tf - ti 	
 		
-		ti = int(round(time.time() * 1000)) 
+		#ti = int(round(time.time() * 1000)) 
 		try :
 			user_account_combinations_dict[key].append(idx)
 		except :
 			user_account_combinations_dict[key] = [idx]
 		
-		tf = int(round(time.time() * 1000))
+		#tf = int(round(time.time() * 1000))
 
-		print "adding value time : " , tf - ti 	
-		
-		print "-----------------------------------------------------------------------------"
 	#----------------------------------------------------------
 
 	for key in user_account_combinations_dict.keys():
+		print 6 , '\t\t' , key 
 		indexes = user_account_combinations_dict[key] 
 		
 		flag = 0 
 		for idx in indexes[:-1] :
-			print key,idx
-			if bank_sms_df.at[idx,'Amt_2'] == -1 and flag == 0 :
+			#print key,idx
+			if float(bank_sms_df.at[idx,'Amt_2']) == -1 and flag == 0 :
 				continue
 			else:
 				flag = 1 
@@ -84,9 +81,9 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 				
 				bank_sms_df.at[idx+1, 'Amt_2_calculated'] = Amt_2_calculated
 				
-				if bank_sms_df.at[idx+1, 'Amt_2'] != -1 and bank_sms_df.at[idx+1, 'Amt_2_calculated'] != -1 and bank_sms_df.at[idx+1, 'MessageType'] != 'Balance':
+				if (float(bank_sms_df.at[idx+1, 'Amt_2']) != -1) and (float(bank_sms_df.at[idx+1, 'Amt_2_calculated']) != -1) and (bank_sms_df.at[idx+1, 'MessageType'] != 'Balance'):
 					error_timespan = (bank_sms_df.at[idx+1,'MessageTimestamp'] - bank_sms_df.at[idx,'MessageTimestamp']).days
-					error = bank_sms_df.at[idx+1, 'Amt_2'] - bank_sms_df.at[idx+1, 'Amt_2_calculated']
+					error = float(bank_sms_df.at[idx+1, 'Amt_2']) - float(bank_sms_df.at[idx+1, 'Amt_2_calculated'])
 					
 					if abs(error) < 1.0 :
 						error = 0

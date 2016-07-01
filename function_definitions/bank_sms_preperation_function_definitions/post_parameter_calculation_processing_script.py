@@ -9,7 +9,7 @@ def post_parameter_calculation_func(bank_sms_df):
 	bank_sms_df['ClosingBalance'] = -9999999999
 
 	for idx,row in bank_sms_df.iterrows():
-		print idx
+		print 10 , '\t\t' , idx
 
 		if row['TotalCreditTxns'] > row['TotalDebitTxns'] :
 			bank_sms_df.at[idx,'TransactionDirectionFlag'] = 'Net_Credit'
@@ -29,10 +29,11 @@ def post_parameter_calculation_func(bank_sms_df):
 		else :
 			pass
 
-
+	print bank_sms_df.index.values
+	raw_input()
 
 	for idx,row in bank_sms_df.iterrows():
-		print idx
+		print 10 , '\t\t' , idx
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
 			bank_sms_df.at[idx,'OppeningBalance'] = row['MaxBalance'] - row['NetTxnAmt']
