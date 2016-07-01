@@ -83,7 +83,7 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 		#print RS[i],'-------------------------------'
 		CUR = re.search(currency_re,RS[i]).group()
 		Amount[i] = str(AMT)
-		Currency[i] = str(CUR).replace("BALANCE","INR").replace('IS','INR').replace('X','INR').replace('LEDG','INR')
+		Currency[i] = str(CUR).replace("BALANCE","INR").replace('IS','INR').replace('X','INR').replace('LEDG','INR').replace('BAL','INR')
 
 	return Currency+Amount 
 

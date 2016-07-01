@@ -11,7 +11,7 @@ from function_definitions.bank_sms_preperation_function_definitions.bank_sms_err
 from function_definitions.bank_sms_preperation_function_definitions.balance_rectification_script import balance_rectification_func
 from function_definitions.bank_sms_preperation_function_definitions.balance_error_based_dummy_entry_generation_script import balance_error_based_dummy_entry_generation_func
 from function_definitions.bank_sms_preperation_function_definitions.parameter_calculation_script import parameter_calculation_func
-
+from function_definitions.bank_sms_preperation_function_definitions.post_parameter_calculation_processing_script import post_parameter_calculation_func
 
 
 ti = time()*1000 
@@ -43,8 +43,12 @@ bank_sms_df = balance_rectification_func(bank_sms_df)
 #Generating dummy sms entries based on balance error so as to compensate error.
 bank_sms_df = balance_error_based_dummy_entry_generation_func(bank_sms_df)
 
-#Calculating CASA parameters
+#Calculating some CASA parameters 
 casa_parameter_data = parameter_calculation_func(bank_sms_df)
+
+#Calculating rest of the CASA parameters
+casa_parameter_data = post_parameter_calculation_func(casa_parameter_data)
+
 
 tf = time()*1000
 

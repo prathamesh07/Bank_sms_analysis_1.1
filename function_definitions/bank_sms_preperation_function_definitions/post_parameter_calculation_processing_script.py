@@ -2,7 +2,7 @@ import pandas
 
 
 
-def post_parameter_calculation(bank_sms_df):
+def post_parameter_calculation_func(bank_sms_df):
 	bank_sms_df['TransactionDirectionFlag'] = 'Equal'
 	bank_sms_df['TransactionDirectionIndicator'] = 'Multidirectional'
 	bank_sms_df['OppeningBalance'] = -9999999999

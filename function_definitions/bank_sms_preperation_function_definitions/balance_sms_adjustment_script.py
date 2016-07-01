@@ -48,7 +48,7 @@ def balance_sms_adjustment_func(bank_sms_df):
 	print len(bank_sms_df.index.values)
 
 	#Reading orginal finalbanks_with_cat csv and dropping balance sms rows
-	bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
+	bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
 	bank_sms_df_without_balance = bank_sms_df_without_balance[bank_sms_df_without_balance['MessageType'] != 'Balance']
 
 	#Appending adjusted balance sms dates dataframe to orginal dataframe

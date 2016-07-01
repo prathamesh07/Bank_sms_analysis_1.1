@@ -32,12 +32,15 @@ def duplicate_flag_generation_func(bank_sms_df):
 			for k in range(j+1):
 				duplicate_sms_idx_list.append(i + k)
 			
+			flag = 0
 			for idx in duplicate_sms_idx_list :
 				if bank_sms_df.at[idx, 'Amt_2'] == -1 :
 					bank_sms_df.at[idx,"RepeatedTxnFlag"] = 1 
-				else :
+				elif flag == 0 :
 					bank_sms_df.at[idx,"RepeatedTxnFlag"] = 2
-					
+					flag = 1
+				else :
+					bank_sms_df.at[idx,"RepeatedTxnFlag"] = 1 
 			temp = idx 
 			
 			
