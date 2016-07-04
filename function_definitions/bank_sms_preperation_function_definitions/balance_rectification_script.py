@@ -1,5 +1,12 @@
 import pandas as pd
 
+#	In bulk transaction usually the ballance is constant which is final balance
+#	this script  identifies this type of transectiosn and tries to make sure if it is 
+#	really 
+#
+#
+
+
 def balance_rectification_func(bank_sms_df):
 	#Creating bulk_transaction_flag
 	bank_sms_df['BulkTxnFlag'] = 0
@@ -58,7 +65,7 @@ def balance_rectification_func(bank_sms_df):
 			for idx in indexes:
 				bank_sms_df.at[idx, 'BulkTxnFlag'] = 1
 				
-	bank_sms_df = bank_sms_df[['SmsID', 'CustomerID', 'BankName', 'AccountNo', 'LinkedDebitCardNumber', 'AccountType', 'MessageSource', 'Message', 'MessageTimestamp', 'ReferenceNumber', 'MessageType', 'Currency_1', 'Amt_1', 'Currency_2', 'Amt_2', 'Amt_2_calculated', 'Error', 'ConsecutiveTxnTimespan', 'Currency_3', 'Amt_3', 'Vendor', 'TxnAmount', 'RepeatedTxnFlag', 'BulkTxnFlag']]
+	bank_sms_df = bank_sms_df[['SmsID', 'CustomerID', 'BankName', 'SENDER_PARENT' , 'SENDER_CHILD_1' , 'SENDER_CHILD_2' , 'SENDER_CHILD_3' , 'AccountNo', 'LinkedDebitCardNumber', 'AccountType', 'MessageSource', 'Message', 'MessageTimestamp', 'ReferenceNumber', 'MessageType', 'Currency_1', 'Amt_1', 'Currency_2', 'Amt_2', 'Amt_2_calculated', 'Error', 'ConsecutiveTxnTimespan', 'Currency_3', 'Amt_3', 'Vendor', 'TxnAmount', 'RepeatedTxnFlag', 'BulkTxnFlag']]
 				
 	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_filtered_flaged.csv', index=False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))

@@ -14,7 +14,7 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 		
 		extracted_data = getData(row['Message'])
 		bank_name = getBankName(row['MessageSource'])
-
+		bank_details = getBankDetails(row['MessageSource'])
 		try:
 			bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
 		except:
@@ -37,7 +37,12 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 		bank_sms_df.at[idx,"ReferenceNumber"] = extracted_data[10]
 		bank_sms_df.at[idx, "TxnInstrument"] = extracted_data[11]
 
-		bank_sms_df.at[idx,"BankName"] = bank_name
+		#bank_sms_df.at[idx,"BankName"] = bank_name
+		bank_sms_df.at[idx,"BankName"] = bank_details[0]
+		bank_sms_df.at[idx,"SENDER_PARENT"] = bank_details[1]
+		bank_sms_df.at[idx,"SENDER_CHILD_1"] = bank_details[2]
+		bank_sms_df.at[idx,"SENDER_CHILD_2"] = bank_details[3]
+		bank_sms_df.at[idx,"SENDER_CHILD_3"] = bank_details[4]
 
 	bank_sms_df = bank_sms_df.sort_values(by=["CustomerID", "AccountNo", "MessageTimestamp"], ascending=[True, True, True])
 

@@ -15,6 +15,10 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			SmsID = -1*int(row['SmsID'])
 			CustomerID = row['CustomerID']
 			BankName = row['BankName']
+			SENDER_PARENT = row['SENDER_PARENT']
+			SENDER_CHILD_1 = row['SENDER_CHILD_1']
+			SENDER_CHILD_2 = row['SENDER_CHILD_2']
+			SENDER_CHILD_3 = row['SENDER_CHILD_3']
 			AccountNo = row['AccountNo']
 			LinkedDebitCardNumber = row['LinkedDebitCardNumber']
 			AccountType = row['AccountType']
@@ -45,7 +49,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			else:
 				dummy_entry_datetime = (current_date - prev_date)/2 + prev_date
 				
-			to_be_appended = pd.DataFrame({'SmsID':SmsID, 'CustomerID':CustomerID, 'BankName':pd.Series(BankName), 'AccountNo':AccountNo, 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber), \
+			to_be_appended = pd.DataFrame({'SmsID':SmsID, 'CustomerID':CustomerID, 'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'AccountNo':AccountNo, 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber), \
 			'AccountType':pd.Series(AccountType), 'MessageSource':pd.Series(MessageSource), 'Message':pd.Series(Message), 'MessageTimestamp':dummy_entry_datetime, 'ReferenceNumber':pd.Series(ReferenceNumber), \
 			'MessageType':pd.Series(MessageType), 'Currency_1':pd.Series(Currency_1), 'Amt_1':Amt_1, 'Currency_2':pd.Series(Currency_2), 'Amt_2_calculated':Amt_2_calculated, 'Error':Error, \
 			'ConsecutiveTxnTimespan':pd.Series(ConsecutiveTxnTimespan), 'Currency_3':pd.Series(Currency_3), 'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'TxnAmount':TxnAmount, \

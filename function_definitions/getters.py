@@ -261,3 +261,17 @@ def getData(message): # this is the main method that retuns all the data as a li
 	txn_instrument = getTxnInstrument(message)
 
 	return [category] + [money_currency[0]] + [money_currency[3]]+ [money_currency[1]]+ [money_currency[4]]+ [money_currency[2]]+ [money_currency[5]]+ [account_number]+ [trensection_source] + [account_type] + [reference_number] + [txn_instrument]
+
+
+
+def getBankDetails(message_source): # returns the bank name from the sms senders ID
+	global bank_dict
+	message_source = str(message_source)[3:].upper()[:6]
+	if message_source in bank_dict:
+		bank_det = bank_dict[message_source]
+	else :
+		bank_det = "_NA_"
+
+		
+	return bank_det
+

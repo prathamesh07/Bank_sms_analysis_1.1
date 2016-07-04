@@ -107,6 +107,13 @@ def parameter_calculation_func(bank_sms_df):
 
 		CustomerID_current = int(bank_sms_filtered_flaged_CASA.at[i, 'CustomerID'])
 		BankName_current = bank_sms_filtered_flaged_CASA.at[i, 'BankName']
+		SENDER_PARENT_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_PARENT']
+		SENDER_CHILD_1_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_1']
+		SENDER_CHILD_2_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_2']
+		SENDER_CHILD_3_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_3']
+
+
+
 		AccountNo_current = int(bank_sms_filtered_flaged_CASA.at[i, 'AccountNo'])
 		Date_current = bank_sms_filtered_flaged_CASA.at[i, 'MessageTimestamp'].strftime('%Y-%m-%d')
 		
@@ -124,7 +131,7 @@ def parameter_calculation_func(bank_sms_df):
 			
 		Date = datetime.strptime(Date_current, '%Y-%m-%d')
 		
-		to_be_appended = pd.DataFrame({'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
+		to_be_appended = pd.DataFrame({'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		CASA_parameters = CASA_parameters.append(to_be_appended)

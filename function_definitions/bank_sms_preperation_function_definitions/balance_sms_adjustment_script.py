@@ -35,13 +35,17 @@ def balance_sms_adjustment_func(bank_sms_df):
 		AccountType = row["AccountType"]
 		ReferenceNumber = row["ReferenceNumber"]
 		BankName = row["BankName"]
+		SENDER_PARENT = row['SENDER_PARENT']
+		SENDER_CHILD_1 = row['SENDER_CHILD_1']
+		SENDER_CHILD_2 = row['SENDER_CHILD_2']
+		SENDER_CHILD_3 = row['SENDER_CHILD_3']
 		LinkedDebitCardNumber = row['LinkedDebitCardNumber']
 
 		timestamp_for_new_row = MessageTimestamp - timedelta(seconds=1)
 		
 		to_be_appended = pd.DataFrame({'SmsID':SmsID, 'CustomerID':CustomerID, 'Message':pd.Series(Message), 'MessageSource':pd.Series(MessageSource), 'MessageDate':pd.Series(MessageDate), \
 		'MessageTimestamp':timestamp_for_new_row, 'MessageType':pd.Series(MessageType), 'Currency_1':pd.Series(Currency_1), 'Amt_1':Amt_1, 'Currency_2':pd.Series(Currency_2), 'Amt_2':Amt_2, 'Currency_3':pd.Series(Currency_3), \
-		'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'AccountNo':pd.Series(AccountNo), 'AccountType':pd.Series(AccountType), 'ReferenceNumber':pd.Series(ReferenceNumber), 'BankName':pd.Series(BankName), 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber)})
+		'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'AccountNo':pd.Series(AccountNo), 'AccountType':pd.Series(AccountType), 'ReferenceNumber':pd.Series(ReferenceNumber), 'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber)})
 		
 		bank_sms_df = bank_sms_df.append(to_be_appended)
 
