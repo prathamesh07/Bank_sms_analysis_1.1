@@ -8,7 +8,7 @@ fp = open('data_files/sms_classification_level1_keywords/financial/bank_id_to_ba
 for bank in fp.read().split('\n'):
 	if bank != '':
 		bank = bank.split('\t')
-		bank_dict[bank[0]]  = [ value for value in bank[1:] if value !='' ]
+		bank_dict[bank[0]]  = [ value for value in bank[1:] ]
 
 
 
@@ -16,5 +16,5 @@ fp = open('data_files/sms_classification_level1_keywords/utilities/sender_id_to_
 for utility in fp.read().split('\n'):
 	if utility != '':
 		utility = utility.split('\t')
-		utilities_dict[utility[0]]  = [ value for value in utility[1:] if value !='' ]
+		utilities_dict[utility[0]]  = [ value for value in utility[1:]]
 
