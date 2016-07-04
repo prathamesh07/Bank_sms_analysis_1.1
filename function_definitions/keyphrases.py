@@ -1,5 +1,12 @@
 import os
 
+
+# this script basically reads from various text files and 
+# adds the data to variables in the form of list or dict
+# so that checkers can use it later to compare 
+#
+
+
 Declined_keyphrases_list = []
 fp = open("data_files/sms_classification_level2_keywords/financial/bank_level2_classification/message_type_keywords/declined",'r')
 for key in fp.read().split('\n'):

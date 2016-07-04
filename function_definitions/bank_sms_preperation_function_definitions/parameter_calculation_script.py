@@ -13,13 +13,13 @@ def getNumberOfTxns(l):
 	
 	for i in l:
 		messageType = bank_sms_filtered_flaged_CASA.at[i, 'MessageType'] 
-		print messageType 
+		#print messageType 
 		if messageType in ['Debit', 'ATM']:
 			TotalDebitTxns += 1
 		elif messageType == 'Credit':
 			TotalCreditTxns += 1
 		
-	print 	messageType, TotalCreditTxns 
+	#print 	messageType, TotalCreditTxns 
 	
 	return (TotalCreditTxns + TotalDebitTxns , TotalDebitTxns, TotalCreditTxns)
 
@@ -35,9 +35,7 @@ def getNumberOfBulkTxns(l):
 	
 def getPercentOfTxns(TotalDebitTxns, TotalCreditTxns):
 	try:
-		print type(TotalDebitTxns) , TotalDebitTxns , "--------------------"
-		print type(TotalCreditTxns) , TotalCreditTxns , "--------------------"
-	
+		
 		PercentOfDebitTxns = (float(TotalDebitTxns)/(TotalDebitTxns+TotalCreditTxns))*100
 		PercentOfCreditTxns = (float(TotalCreditTxns)/(TotalDebitTxns+TotalCreditTxns))*100
 	except ZeroDivisionError:
@@ -54,8 +52,8 @@ def getNetTxnAmt(l):
 	
 def getMaxMinBalance(l):
 	global bank_sms_filtered_flaged_CASA
-	MaxBalance = -9999999999
-	MinBalance = 9999999999
+	MaxBalance = '_NA_'
+	MinBalance = '_NA_'
 	amount_to_consider = 0 
 	for i in l:
 		Amt_2 = bank_sms_filtered_flaged_CASA.at[i, 'Amt_2']
@@ -104,11 +102,18 @@ def parameter_calculation_func(bank_sms_df):
 	CASA_parameters = pd.DataFrame()
 
 	for i in range(len(bank_sms_filtered_flaged_CASA)-1):
-		print i
+		print 9 , '\t\t' ,  i
 		#print bank_sms_filtered_flaged_CASA.at[i,'AccountType']
 
 		CustomerID_current = int(bank_sms_filtered_flaged_CASA.at[i, 'CustomerID'])
 		BankName_current = bank_sms_filtered_flaged_CASA.at[i, 'BankName']
+		SENDER_PARENT_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_PARENT']
+		SENDER_CHILD_1_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_1']
+		SENDER_CHILD_2_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_2']
+		SENDER_CHILD_3_current = bank_sms_filtered_flaged_CASA.at[i, 'SENDER_CHILD_3']
+
+
+
 		AccountNo_current = int(bank_sms_filtered_flaged_CASA.at[i, 'AccountNo'])
 		Date_current = bank_sms_filtered_flaged_CASA.at[i, 'MessageTimestamp'].strftime('%Y-%m-%d')
 		
@@ -126,11 +131,13 @@ def parameter_calculation_func(bank_sms_df):
 			
 		Date = datetime.strptime(Date_current, '%Y-%m-%d')
 		
-		to_be_appended = pd.DataFrame({'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
+		to_be_appended = pd.DataFrame({'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		CASA_parameters = CASA_parameters.append(to_be_appended)
-		
+	
+	CASA_parameters.index = range(len(CASA_parameters.index.values))	
+
 	CASA_parameters.to_csv('data_files/intermediate_output_files/banks/CASA_parameters.csv', index=False)
 	return CASA_parameters
 	

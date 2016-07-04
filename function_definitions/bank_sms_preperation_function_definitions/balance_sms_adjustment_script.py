@@ -3,18 +3,20 @@ import pandas as pd
 
 
 def balance_sms_adjustment_func(bank_sms_df):
+	bank_sms_df_original = bank_sms_df
 	bank_sms_df = bank_sms_df[bank_sms_df['MessageType'] == 'Balance']
-
+	
 	#Truncating time part of datetime to 00:00:00
 	bank_sms_df['MessageTimestamp'] = bank_sms_df['MessageTimestamp'].apply(pd.datetools.normalize_date)
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 	#Considering only first balance sms from each day
 	bank_sms_df.drop_duplicates(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 
 	for idx, row in bank_sms_df.iterrows():
+		print 4 , '\t\t' , idx
 		SmsID = row['SmsID']
 		CustomerID = row['CustomerID']
 		Message = row["Message"]
@@ -33,23 +35,27 @@ def balance_sms_adjustment_func(bank_sms_df):
 		AccountType = row["AccountType"]
 		ReferenceNumber = row["ReferenceNumber"]
 		BankName = row["BankName"]
+		SENDER_PARENT = row['SENDER_PARENT']
+		SENDER_CHILD_1 = row['SENDER_CHILD_1']
+		SENDER_CHILD_2 = row['SENDER_CHILD_2']
+		SENDER_CHILD_3 = row['SENDER_CHILD_3']
 		LinkedDebitCardNumber = row['LinkedDebitCardNumber']
 
 		timestamp_for_new_row = MessageTimestamp - timedelta(seconds=1)
 		
 		to_be_appended = pd.DataFrame({'SmsID':SmsID, 'CustomerID':CustomerID, 'Message':pd.Series(Message), 'MessageSource':pd.Series(MessageSource), 'MessageDate':pd.Series(MessageDate), \
 		'MessageTimestamp':timestamp_for_new_row, 'MessageType':pd.Series(MessageType), 'Currency_1':pd.Series(Currency_1), 'Amt_1':Amt_1, 'Currency_2':pd.Series(Currency_2), 'Amt_2':Amt_2, 'Currency_3':pd.Series(Currency_3), \
-		'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'AccountNo':pd.Series(AccountNo), 'AccountType':pd.Series(AccountType), 'ReferenceNumber':pd.Series(ReferenceNumber), 'BankName':pd.Series(BankName), 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber)})
+		'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'AccountNo':pd.Series(AccountNo), 'AccountType':pd.Series(AccountType), 'ReferenceNumber':pd.Series(ReferenceNumber), 'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber)})
 		
 		bank_sms_df = bank_sms_df.append(to_be_appended)
 
 	bank_sms_df.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)	
 
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 	#Reading orginal finalbanks_with_cat csv and dropping balance sms rows
-	bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
-	bank_sms_df_without_balance = bank_sms_df_without_balance[bank_sms_df_without_balance['MessageType'] != 'Balance']
+	#bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
+	bank_sms_df_without_balance = bank_sms_df_original[bank_sms_df_original['MessageType'] != 'Balance']
 
 	#Appending adjusted balance sms dates dataframe to orginal dataframe
 	bank_sms_df = bank_sms_df.append(bank_sms_df_without_balance)

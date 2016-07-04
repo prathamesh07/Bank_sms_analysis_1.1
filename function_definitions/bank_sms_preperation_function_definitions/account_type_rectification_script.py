@@ -19,6 +19,7 @@ def account_type_rectification_func(bank_sms_df):
 
 
 	for idx, row in account_type_rectified.iterrows():
+		print 2 , "\t\t" , idx
 		CustomerID = row['CustomerID']
 		AccountNo = row['AccountNo']
 		AccountType = row['AccountType']
@@ -41,7 +42,7 @@ def account_type_rectification_func(bank_sms_df):
 				user_account_combinations_dict[key][AccountType] = user_account_combinations_dict[key].get(AccountType)+1
 				
 
-	print len(user_account_combinations_dict), '@@@@@@@@@@@@@@@@@'
+	#print len(user_account_combinations_dict), '@@@@@@@@@@@@@@@@@'
 
 
 	#Eliminating dictionary keys which has length = 1 because they are correctly classified
@@ -55,20 +56,20 @@ def account_type_rectification_func(bank_sms_df):
 		user_account_combinations_dict[dict_key] = sorted(user_account_combinations_dict[dict_key].items(), key=operator.itemgetter(1), reverse=True)
 
 		
-	print len(user_account_combinations_dict), '**********'
+	#print len(user_account_combinations_dict), '**********'
 		
 	#Account type correction logic
 	for key in user_account_combinations_dict.keys():
-		print "resched for loop " , key
+		#print "resched for loop " , key
 		actual_account_type = ""
-		print key
+		#print key
 		if user_account_combinations_dict[key][0][0] == '_NA_':
 			actual_account_type = user_account_combinations_dict[key][1][0]
 		else:
 			actual_account_type = user_account_combinations_dict[key][0][0]
 		
 		for idx in user_account_combinations_idx_dict[key]:
-			print idx , actual_account_type
+			#print idx , actual_account_type
 			account_type_rectified.at[idx, 'AccountType'] = actual_account_type
 		
 	

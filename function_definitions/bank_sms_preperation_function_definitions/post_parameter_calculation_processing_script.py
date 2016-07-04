@@ -5,50 +5,66 @@ import pandas
 def post_parameter_calculation_func(bank_sms_df):
 	bank_sms_df['TransactionDirectionFlag'] = 'Equal'
 	bank_sms_df['TransactionDirectionIndicator'] = 'Multidirectional'
-	bank_sms_df['OppeningBalance'] = -9999999999
-	bank_sms_df['ClosingBalance'] = -9999999999
+	bank_sms_df['OppeningBalance'] = '_NA_'
+	bank_sms_df['ClosingBalance'] = '_NA_'
 
 	for idx,row in bank_sms_df.iterrows():
-		print idx
+		print 10 , '\t\t' , idx
 
-		if row['TotalCreditTxns'] > row['TotalDebitTxns'] :
+		if int(row['TotalCreditTxns']) > int(row['TotalDebitTxns']) :
 			bank_sms_df.at[idx,'TransactionDirectionFlag'] = 'Net_Credit'
 
-		elif row['TotalCreditTxns'] < row['TotalDebitTxns'] :
+		elif int(row['TotalCreditTxns']) < int(row['TotalDebitTxns']) :
 			bank_sms_df.at[idx,'TransactionDirectionFlag'] = 'Net_Debit'
 
 		else :
 			pass
 
-		if row['PercentOfCreditTxns'] in [float(0),float(100)] :
+		if float(row['PercentOfCreditTxns']) in [float(0),float(100)] :
 			bank_sms_df.at[idx,'TransactionDirectionIndicator'] = 'Unidirectional'
 
-		elif row['PercentOfCreditTxns'] == float(50) :
+		elif float(row['PercentOfCreditTxns']) == float(50) :
 			bank_sms_df.at[idx,'TransactionDirectionIndicator'] = 'Bidirectional'
 
 		else :
 			pass
 
-
+	#print bank_sms_df.index.values
+	#raw_input()
 
 	for idx,row in bank_sms_df.iterrows():
-		print idx
+		print 10 , '\t\t' , idx
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
-			bank_sms_df.at[idx,'OppeningBalance'] = row['MaxBalance'] - row['NetTxnAmt']
+			try :
+				if float(row['MaxBalance']) != '_NA_' :
+					bank_sms_df.at[idx,'OppeningBalance'] = float(row['MaxBalance']) - float(row['NetTxnAmt'])
+			except :
+				pass
 
 		elif(  ( row['TransactionDirectionFlag'] == 'Net_Debit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')   ):
-			bank_sms_df.at[idx,'OppeningBalance'] = row['MinBalance'] - row['NetTxnAmt']
-
+			try :
+				if float(row['MinBalance']) != '_NA_' :
+					bank_sms_df.at[idx,'OppeningBalance'] = float(row['MinBalance']) - float(row['NetTxnAmt'])
+			except :
+				pass
 		else :
 			pass
 
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
-			bank_sms_df.at[idx,'ClosingBalance'] = row['MaxBalance']
+			try :
+				if float(row['MaxBalance']) != '_NA_':
+					bank_sms_df.at[idx,'ClosingBalance'] = float(row['MaxBalance'])
+			except ValueError :
+				pass
 
 		elif(  ( row['TransactionDirectionFlag'] == 'Net_Debit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')   ):
-			bank_sms_df.at[idx,'ClosingBalance'] = row['MinBalance']
+			try :
+				if float(row['MinBalance']) != '_NA_' :
+					bank_sms_df.at[idx,'ClosingBalance'] = float(row['MinBalance'])
+			except ValueError :
+				pass
 
 		else :
 			pass
@@ -59,6 +75,6 @@ def post_parameter_calculation_func(bank_sms_df):
 	return bank_sms_df
 
 
-#df = pandas.read_csv('/home/majchinmesh/Bank_sms_analysis_1.1/data_files/intermediate_output_files/CASA_parameters.csv')
+#df = pandas.read_csv('/home/majchinmesh/Bank_sms_analysis_1.1/data_files/intermediate_output_files/banks/CASA_parameters.csv')
 
-#post_parameter_calculation(df)
+#post_parameter_calculation_func(df)
