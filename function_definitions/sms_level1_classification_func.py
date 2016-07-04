@@ -41,7 +41,7 @@ def bank_sms_filtering_func(filename):		# filters out the bank messages
 
 	user_sms_raw_df.drop_duplicates('Message',inplace=True)
 	#user_sms_raw_df['Message'] = user_sms_raw_df['Message'].map(lambda x: str(x).strip())
-	user_sms_raw_df['Message'] = user_sms_raw_df['Message'].apply(utf_8_encoder_func)
+	#user_sms_raw_df['Message'] = user_sms_raw_df['Message'].apply(utf_8_encoder_func)
 	bank_sms_raw_df = user_sms_raw_df[user_sms_raw_df['MessageSource'].map(isbank) == True ]
 	bank_sms_raw_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_raw.csv', index = False)
 	return bank_sms_raw_df

@@ -7,19 +7,48 @@ from function_definitions.getters import getBankName
 from function_definitions.getters import getBankDetails
 from function_definitions.sms_level1_classification_func import bank_sms_filtering_func
 
+message_id_re = re.compile(r'\w+-\w+')
+
+
+
 def bank_sms_attributes_generation_func(bank_sms_df):
 	for idx, row in bank_sms_df.iterrows():
 		print 1 , idx
 		
-		row['Message'] = str(row['Message']).upper()
+		try:
+			CustomerID = int(row['CustomerID'])
+		except Exception as e:
+			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']))
+
 		
-		extracted_data = getData(row['Message'])
-		bank_name = getBankName(row['MessageSource'])
-		bank_details = getBankDetails(row['MessageSource'])
+
+		try:
+			row['Message'] = str(row['Message']).upper()
+		except Exception as e:
+			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
+		
+
 		try:
 			bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
-		except:
+		except Exception as e:
+			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
+
+		if re.search(message_id_re,row['MessageSource']):
 			pass 
+		else :
+			raise Exception("MessageSource ID was not proper for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']) )
+
+
+
+
+
+
+
+		extracted_data = getData(row['Message'])
+		bank_name = getBankName(row['MessageSource'])
+		bank_details = getBankDetails(row['MessageSource'])	
+
+
 
 		bank_sms_df.at[idx,"MessageType"] = extracted_data[0]
 
