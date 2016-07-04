@@ -5,8 +5,8 @@ import pandas
 def post_parameter_calculation_func(bank_sms_df):
 	bank_sms_df['TransactionDirectionFlag'] = 'Equal'
 	bank_sms_df['TransactionDirectionIndicator'] = 'Multidirectional'
-	bank_sms_df['OppeningBalance'] = -9999999999
-	bank_sms_df['ClosingBalance'] = -9999999999
+	bank_sms_df['OppeningBalance'] = '_NA_'
+	bank_sms_df['ClosingBalance'] = '_NA_'
 
 	for idx,row in bank_sms_df.iterrows():
 		print 10 , '\t\t' , idx
