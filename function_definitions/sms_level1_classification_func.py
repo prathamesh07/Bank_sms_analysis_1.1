@@ -14,7 +14,7 @@ def utf_8_encoder_func(sms):  # encodes the message text with 'utf-8' encoding a
 		SMS = str(sms)
 	return SMS
 
-def isbank(message_source):		# uses the dictionary provided by all_dict_generator and returns true if the message is from bank
+def isbank(message_source):		# uses the dictionary provided by  all_dict_generator and returns true if the message is from bank
 	global bank_dict
 	message_source = message_source[3:].upper()
 	message_source = message_source[:6]

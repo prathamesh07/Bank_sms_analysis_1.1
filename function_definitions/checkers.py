@@ -25,7 +25,7 @@ from keyphrases import NetBanking_keyphrases_list
 from keyphrases import Cheque_keyphrases_list
 
 from keyphrases import Account_Number_False_Alarm_keyphrases_list
-
+# Basically all the functions use keys from 'keyphrases' file and return true if the message has any of thoes key phrases
 
 def isATM(message):
 	global ATM_keyphrases_list
