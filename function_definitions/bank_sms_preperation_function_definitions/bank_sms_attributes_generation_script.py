@@ -4,6 +4,7 @@ import re
 
 from function_definitions.getters import getData
 from function_definitions.getters import getBankName
+from function_definitions.getters import getBankDetails
 from function_definitions.sms_level1_classification_func import bank_sms_filtering_func
 
 def bank_sms_attributes_generation_func(bank_sms_df):
