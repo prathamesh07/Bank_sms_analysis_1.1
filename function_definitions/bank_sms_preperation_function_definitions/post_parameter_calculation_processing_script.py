@@ -36,13 +36,18 @@ def post_parameter_calculation_func(bank_sms_df):
 		print 10 , '\t\t' , idx
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
-			if float(row['MaxBalance']) != '_NA_' :
-				bank_sms_df.at[idx,'OppeningBalance'] = float(row['MaxBalance']) - float(row['NetTxnAmt'])
+			try :
+				if float(row['MaxBalance']) != '_NA_' :
+					bank_sms_df.at[idx,'OppeningBalance'] = float(row['MaxBalance']) - float(row['NetTxnAmt'])
+			except :
+				pass
 
 		elif(  ( row['TransactionDirectionFlag'] == 'Net_Debit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')   ):
-			if float(row['MinBalance']) != '_NA_' :
-				bank_sms_df.at[idx,'OppeningBalance'] = float(row['MinBalance']) - float(row['NetTxnAmt'])
-
+			try :
+				if float(row['MinBalance']) != '_NA_' :
+					bank_sms_df.at[idx,'OppeningBalance'] = float(row['MinBalance']) - float(row['NetTxnAmt'])
+			except :
+				pass
 		else :
 			pass
 
