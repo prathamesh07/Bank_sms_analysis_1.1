@@ -1,5 +1,9 @@
 import pickle
 
+#	reads a pkl file created by 'storeregex.py' and extracts all the 
+#	regular expressions , so that getters.py can use it later to
+#	extract data from the messages
+#
 fileobjet = open('function_definitions/regex.pkl','rb')
 regex = pickle.load(fileobjet)
 fileobjet.close()
