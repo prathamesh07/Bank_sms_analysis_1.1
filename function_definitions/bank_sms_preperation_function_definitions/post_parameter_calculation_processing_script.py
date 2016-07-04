@@ -11,45 +11,45 @@ def post_parameter_calculation_func(bank_sms_df):
 	for idx,row in bank_sms_df.iterrows():
 		print 10 , '\t\t' , idx
 
-		if row['TotalCreditTxns'] > row['TotalDebitTxns'] :
+		if int(row['TotalCreditTxns']) > int(row['TotalDebitTxns']) :
 			bank_sms_df.at[idx,'TransactionDirectionFlag'] = 'Net_Credit'
 
-		elif row['TotalCreditTxns'] < row['TotalDebitTxns'] :
+		elif int(row['TotalCreditTxns']) < int(row['TotalDebitTxns']) :
 			bank_sms_df.at[idx,'TransactionDirectionFlag'] = 'Net_Debit'
 
 		else :
 			pass
 
-		if row['PercentOfCreditTxns'] in [float(0),float(100)] :
+		if float(row['PercentOfCreditTxns']) in [float(0),float(100)] :
 			bank_sms_df.at[idx,'TransactionDirectionIndicator'] = 'Unidirectional'
 
-		elif row['PercentOfCreditTxns'] == float(50) :
+		elif float(row['PercentOfCreditTxns']) == float(50) :
 			bank_sms_df.at[idx,'TransactionDirectionIndicator'] = 'Bidirectional'
 
 		else :
 			pass
 
-	print bank_sms_df.index.values
-	raw_input()
+	#print bank_sms_df.index.values
+	#raw_input()
 
 	for idx,row in bank_sms_df.iterrows():
 		print 10 , '\t\t' , idx
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
-			bank_sms_df.at[idx,'OppeningBalance'] = row['MaxBalance'] - row['NetTxnAmt']
+			bank_sms_df.at[idx,'OppeningBalance'] = float(row['MaxBalance']) - float(row['NetTxnAmt'])
 
 		elif(  ( row['TransactionDirectionFlag'] == 'Net_Debit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')   ):
-			bank_sms_df.at[idx,'OppeningBalance'] = row['MinBalance'] - row['NetTxnAmt']
+			bank_sms_df.at[idx,'OppeningBalance'] = float(row['MinBalance']) - float(row['NetTxnAmt'])
 
 		else :
 			pass
 
 
 		if  (  ( row['TransactionDirectionFlag'] == 'Net_Credit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')  ):
-			bank_sms_df.at[idx,'ClosingBalance'] = row['MaxBalance']
+			bank_sms_df.at[idx,'ClosingBalance'] = float(row['MaxBalance'])
 
 		elif(  ( row['TransactionDirectionFlag'] == 'Net_Debit'  ) and (row['TransactionDirectionIndicator'] == 'Unidirectional')   ):
-			bank_sms_df.at[idx,'ClosingBalance'] = row['MinBalance']
+			bank_sms_df.at[idx,'ClosingBalance'] = float(row['MinBalance'])
 
 		else :
 			pass
