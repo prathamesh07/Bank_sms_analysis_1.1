@@ -8,7 +8,7 @@ from function_definitions.sms_level1_classification_func import bank_sms_filteri
 
 def bank_sms_attributes_generation_func(bank_sms_df):
 	for idx, row in bank_sms_df.iterrows():
-		print row[0]
+		print 1 , idx
 		
 		row['Message'] = str(row['Message']).upper()
 		

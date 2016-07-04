@@ -1,4 +1,5 @@
 import pandas as pd
+from time import sleep 
 
 def casa_to_debit_card_mapping_func(bank_sms_df):
 	#Creating a new column LinkedDebitCardNumber and intializing with _NA_
@@ -9,6 +10,7 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 	user_bank_combinations_idx_dict = {}
 
 	for idx, row in bank_sms_df.iterrows():
+		print 3 , '\t\t' , idx
 		CustomerID = row['CustomerID']
 		BankName = row['BankName']
 		
@@ -23,17 +25,27 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 	account_number_account_type_dict = {}
 
 	for key in user_bank_combinations_idx_dict.keys():
-		print key, '*********', len(user_bank_combinations_idx_dict[key])
+		print 3 , '\t\t' , key 
 		for idx in user_bank_combinations_idx_dict[key]:
 			account_number = bank_sms_df.at[idx, 'AccountNo']
 			account_type = bank_sms_df.at[idx, 'AccountType']
 			if account_type not in account_number_account_type_dict.keys():
-				account_number_account_type_dict[account_type] = [account_number]
+				if account_number != '_NA_' :
+					account_number_account_type_dict[account_type] = [account_number]
 			else:
-				account_number_account_type_dict[account_type].append(account_number)
+				if account_number != '_NA_' :
+					account_number_account_type_dict[account_type].append(account_number)
+		
+	
+		
+		
 		
 		try:
+			account_number_account_type_dict['CASA'] = list(set(account_number_account_type_dict['CASA']))
+			account_number_account_type_dict['Debit_Card'] = list(set(account_number_account_type_dict['Debit_Card']))
+			
 			if len(account_number_account_type_dict['CASA']) == 1 and len(account_number_account_type_dict['Debit_Card']) == 1:
+				#print "no_key_error"
 				for idx in user_bank_combinations_idx_dict[key]:
 					account_type = bank_sms_df.at[idx, 'AccountType']
 					if account_type == 'CASA' :
@@ -44,6 +56,8 @@ def casa_to_debit_card_mapping_func(bank_sms_df):
 						bank_sms_df.at[idx, 'LinkedDebitCardNumber'] = account_number_account_type_dict['Debit_Card'][0]
 						bank_sms_df.at[idx, 'TxnInstrument'] = 'Debit_Card'
 		except KeyError:
+			#print "Key_error"
+			#print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 			pass
 			
 		account_number_account_type_dict = {}

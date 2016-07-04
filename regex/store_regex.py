@@ -237,9 +237,9 @@ regex['reference_number_regex'] = reference_number_re_list
 
 
 
-fileobjet = open('regex.pkl','wb')
-pickle.dump(regex,fileobjet)
-fileobjet.close()
+fileobject = open('regex.pkl','wb')
+pickle.dump(regex,fileobject)
+fileobject.close()
 
 
 

@@ -10,12 +10,13 @@ def balance_rectification_func(bank_sms_df):
 	prev_key = ''
 
 	for idx, row in bank_sms_df.iterrows():
+		print 7, '\t\t' , idx 
 		if (row['MessageType'] in ['Debit', 'ATM']) and (row['Amt_1'] != -1) :
 			bank_sms_df.at[idx, 'TxnAmount'] = -1 * float(row['Amt_1'])
 		else:
 			bank_sms_df.at[idx, 'TxnAmount'] = float(row['Amt_1'])
 		
-		print idx
+		
 		if row['Amt_2'] != -1:
 			key = str(row['CustomerID'])+str(row['BankName'])+str(row['AccountNo'])+str(row['Amt_2'])
 			if key in user_account_amt2_combination_dict:
@@ -33,9 +34,10 @@ def balance_rectification_func(bank_sms_df):
 		else:
 			continue
 			
-	print len(user_account_amt2_combination_dict), '****************************'
+	#print len(user_account_amt2_combination_dict), '****************************'
 
 	for key in user_account_amt2_combination_dict.keys() :
+		print 7, '\t\t' , key 
 		indexes = user_account_amt2_combination_dict[key]
 			
 		error_total = 0
@@ -43,10 +45,10 @@ def balance_rectification_func(bank_sms_df):
 			try:
 				error_total += float(bank_sms_df.at[idx, 'Error'])
 			except TypeError:
-				print 'TypeException'
+				#print 'TypeException'
 				error_total = 1
 			except ValueError:
-				print 'ValueException'
+				#print 'ValueException'
 				error_total = 1
 		
 		if abs(error_total) < 0.001:

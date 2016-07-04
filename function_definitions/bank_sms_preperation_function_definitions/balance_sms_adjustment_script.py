@@ -3,18 +3,20 @@ import pandas as pd
 
 
 def balance_sms_adjustment_func(bank_sms_df):
+	bank_sms_df_original = bank_sms_df
 	bank_sms_df = bank_sms_df[bank_sms_df['MessageType'] == 'Balance']
-
+	
 	#Truncating time part of datetime to 00:00:00
 	bank_sms_df['MessageTimestamp'] = bank_sms_df['MessageTimestamp'].apply(pd.datetools.normalize_date)
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 	#Considering only first balance sms from each day
 	bank_sms_df.drop_duplicates(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 
 	for idx, row in bank_sms_df.iterrows():
+		print 4 , '\t\t' , idx
 		SmsID = row['SmsID']
 		CustomerID = row['CustomerID']
 		Message = row["Message"]
@@ -45,11 +47,11 @@ def balance_sms_adjustment_func(bank_sms_df):
 
 	bank_sms_df.sort_values(['CustomerID', 'BankName', 'AccountNo', 'MessageTimestamp'], inplace=True)	
 
-	print len(bank_sms_df.index.values)
+	#print len(bank_sms_df.index.values)
 
 	#Reading orginal finalbanks_with_cat csv and dropping balance sms rows
-	bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
-	bank_sms_df_without_balance = bank_sms_df_without_balance[bank_sms_df_without_balance['MessageType'] != 'Balance']
+	#bank_sms_df_without_balance = pd.read_csv('data_files/intermediate_output_files/banks/bank_sms_classified_account_type_rectified.csv', parse_dates=['MessageTimestamp'])
+	bank_sms_df_without_balance = bank_sms_df_original[bank_sms_df_original['MessageType'] != 'Balance']
 
 	#Appending adjusted balance sms dates dataframe to orginal dataframe
 	bank_sms_df = bank_sms_df.append(bank_sms_df_without_balance)
