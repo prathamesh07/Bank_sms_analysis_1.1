@@ -37,7 +37,7 @@ from regex_extractor_from_pickle import junk_re_list
 from regex_extractor_from_pickle import reference_number_re_list
 
 from all_dict_generator import bank_dict
-print bank_dict
+#print bank_dict
 
 number = re.compile(r'\d') # regular expression for a single digit 
 amount_re = re.compile(r'\d+.?\d{0,2}') 
