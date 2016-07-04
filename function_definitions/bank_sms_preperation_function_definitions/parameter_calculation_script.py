@@ -52,8 +52,8 @@ def getNetTxnAmt(l):
 	
 def getMaxMinBalance(l):
 	global bank_sms_filtered_flaged_CASA
-	MaxBalance = -9999999999
-	MinBalance = 9999999999
+	MaxBalance = '_NA_'
+	MinBalance = '_NA_'
 	amount_to_consider = 0 
 	for i in l:
 		Amt_2 = bank_sms_filtered_flaged_CASA.at[i, 'Amt_2']
