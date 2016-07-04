@@ -148,9 +148,9 @@ def getAccountNumber(message): # retuns the account number
 			
 			account_number = ""
 			account_number += str(search_object.group(1))
-			break
+			break										 # only 1st account number is taken
 
-	if len(account_number) < 4 :
+	if len(account_number) < 4 : 						# only last 4 digits of the account number are picked up, if at all the are more digits
 		account_number = "0"*(4-len(account_number)) + account_number 
 	else :
 		account_number = account_number[-4:]
@@ -158,15 +158,15 @@ def getAccountNumber(message): # retuns the account number
 	return account_number
 
 
-def getTransactionSource(message , category):
+def getTransactionSource(message , category): # tries to return the transaction source, i.e. vendor , etc 
 
 	global nonalpha
 
-	if category == 'Debit_2':
-		for RE in debit_2_vendor_re_list:
-			so = re.search(RE,message)
+	if category == 'Debit_2':				
+		for RE in debit_2_vendor_re_list:		# tries to match the message with each regex and returns the 1st match
+			so = re.search(RE,message)					
 			if so :
-				v = re.sub(nonalpha , '',so.group(1))
+				v = re.sub(nonalpha , '',so.group(1)) # substitues the non alpha characters with '' , i.e. removes the nonalpha chatacters
 				for p in junk_re_list :
 					v = re.sub( p, '',v)
 				return v
@@ -201,7 +201,7 @@ def getTransactionSource(message , category):
 
 
 
-def getBankName(message_source):
+def getBankName(message_source): # returns the bank name from the sms senders ID
 	global bank_dict
 	message_source = str(message_source)[3:].upper()[:6]
 	if message_source in bank_dict:
@@ -211,20 +211,20 @@ def getBankName(message_source):
 
 		
 	return bank_name
-def getReferenceNumber(message):
+def getReferenceNumber(message):	# returns the reference number in the message if present 
 	#message = message.replace('/','')
 	global reference_number_re_list 
 	for pattern in reference_number_re_list :
-		search_object = re.search(pattern,message)
-		if search_object :
+		search_object = re.search(pattern,message) 
+		if search_object : 												
 			ref_no =search_object.group(1)
-			if re.search(number,ref_no): 
+			if re.search(number,ref_no): 	 # the reference number must contain atleast 1 numerical/digit
 				return ref_no 
 	return "_NA_"
 	
 	
 	
-def getTxnInstrument(message):
+def getTxnInstrument(message):				# returns the transection instrument
 	if isDebit_Card(message):
 		return "Debit_Card"
 	if isATM(message):
@@ -241,7 +241,7 @@ def getTxnInstrument(message):
 
 
 	
-def getData(message):
+def getData(message): # this is the main method that retuns all the data as a list with the help of above functions
 	global debit_vendor_re_list
 	global debit_2_vendor_re_list
 	global credit_vendor_re_list
