@@ -38,10 +38,10 @@ from regex_extractor_from_pickle import reference_number_re_list
 
 from bank_dict_generator import bank_dict
 
-number = re.compile(r'\d')
-amount_re = re.compile(r'\d+.?\d{0,2}')
-currency_re = re.compile(r'[A-Za-z]+')
-nonalpha = re.compile(r'[^a-zA-Z ]+')
+number = re.compile(r'\d') # regular expression for a single digit 
+amount_re = re.compile(r'\d+.?\d{0,2}') 
+currency_re = re.compile(r'[A-Za-z]+') # regular expression for 1 or more upper or lower case leter
+nonalpha = re.compile(r'[^a-zA-Z ]+')  # regular expression for 1 or more non alpha character
 
 
 
@@ -56,39 +56,39 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 	Currency = ['-','-','-']
 
 	RS = []
-	RS += re.findall(money_re_list[0],message.replace(',','').replace('  ',''))
-	RS += re.findall(money_re_list[2],message.replace(',','').replace('  ',''))
-	if category in ['Balance'] :
-		RS += re.findall(money_re_list[1],message.replace(',','').replace('  ',''))
+	RS += re.findall(money_re_list[0],message.replace(',','').replace('  ','')) # checks with a particular regex to get ammount
+	RS += re.findall(money_re_list[2],message.replace(',','').replace('  ','')) # checks with other
+ 	if category in ['Balance'] :
+		RS += re.findall(money_re_list[1],message.replace(',','').replace('  ','')) # if category is balance, checks with 1 more 
 	if category in ['Debit'] :
-		RS += re.findall(money_re_list[3],message.replace(',','').replace('  ',''))
+		RS += re.findall(money_re_list[3],message.replace(',','').replace('  ','')) # if category is debit, checks with 1 more
 
 	if RS == [] :
 		try :
-			RS = ['INR ' + re.search(money_re_list[4],message.replace(',','').replace('  ','')).group(1)]
-		except :
+			RS = ['INR ' + re.search(money_re_list[4],message.replace(',','').replace('  ','')).group(1)] # if after above tries still nothing is found
+		except :																						  # it tries another regex				
 			pass
 
 	# if RS == [] :
 	# 	for moneypattern in money_re_list[3:]:
-	if len(RS) < 3 :
+	if len(RS) < 3 :                                 # if after above process still we have less then 3 amounts, try remaining regex
 		for i in range(5, len(money_re_list)):
 			RS += re.findall(money_re_list[i],message.replace(',','').replace('  ',''))
 		
 
-	RS = RS[:3]
+	RS = RS[:3] # pick only 1st 3 amounts from them
 
-	for i  in range(len(RS)):
+	for i  in range(len(RS)): # for each amount, split it into its currency and the actual amount
 		AMT = re.search(amount_re,RS[i]).group()
 		#print RS[i],'-------------------------------'
 		CUR = re.search(currency_re,RS[i]).group()
 		Amount[i] = str(AMT)
-		Currency[i] = str(CUR).replace("BALANCE","INR").replace('IS','INR').replace('X','INR').replace('LEDG','INR')
+		Currency[i] = str(CUR).replace("BALANCE","INR").replace('IS','INR').replace('X','INR').replace('LEDG','INR') # some times the currency is not mentioned
+																													 # this step gives a default of INR for them				
+	return Currency+Amount # returns a list of currency and corresponding actual amounts 
 
-	return Currency+Amount 
 
-
-def getCategory(message):
+def getCategory(message): # simple method that just uses the methods from checkers file to return the category of the message
 	message = str(message)
 	#print(message[:10])
 	if isDeclined(message):
@@ -121,7 +121,7 @@ def getCategory(message):
 	else :
 		return "None"
 
-def getAccountType(message):
+def getAccountType(message): # simple method that just uses the methods from checkers file to return the Account_type of the message
 	if isDebit_Card(message):
 		return "Debit_Card"
 	if isCredit_Card(message):
@@ -139,10 +139,10 @@ def getAccountType(message):
 
 
 
-def getAccountNumber(message):
+def getAccountNumber(message): # retuns the account number
 	global account_number_re_list
 	account_number = "_NA_"
-	for account_number_re in account_number_re_list :
+	for account_number_re in account_number_re_list : # iterates over the ac no re list from regex to find the account number
 		search_object = re.search(account_number_re,message)
 		if search_object and not isAccount_Number_False_Alarm(message) : # NOW THE Payee Ac No WILL NOT BE EXTRECTED
 			

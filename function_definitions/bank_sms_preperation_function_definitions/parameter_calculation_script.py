@@ -130,7 +130,8 @@ def parameter_calculation_func(bank_sms_df):
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		CASA_parameters = CASA_parameters.append(to_be_appended)
-		
+	
+	CASA_parameters.index = len(CASA_parameters.index.values)	
 	CASA_parameters.to_csv('data_files/intermediate_output_files/banks/CASA_parameters.csv', index=False)
 	return CASA_parameters
 	
