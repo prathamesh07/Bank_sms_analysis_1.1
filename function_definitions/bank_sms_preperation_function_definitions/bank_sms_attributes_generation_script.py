@@ -15,31 +15,38 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 	for idx, row in bank_sms_df.iterrows():
 		print 1 , idx
 		
-		try:
-			CustomerID = int(row['CustomerID'])
-		except Exception as e:
-			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']))
+		try :	
+			try:
+				CustomerID = int(row['CustomerID'])
+			except Exception as e:
+				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']))
 
-		
-
-		try:
-			row['Message'] = str(row['Message']).upper()
-		except Exception as e:
-			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
-		
-
-		try:
-			bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
-		except Exception as e:
-			raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
-
-		if re.search(message_id_re,row['MessageSource']):
-			pass 
-		else :
-			raise Exception("MessageSource ID was not proper for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']) )
+			try:
+				SmsID = int(row['SmsID'])
+			except Exception as e:
+				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) ' at SmsID ' + str(row['SmsID']))
 
 
+			try:
+				row['Message'] = str(row['Message']).upper()
+			except Exception as e:
+				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
+			
 
+			try:
+				bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
+			except Exception as e:
+				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
+
+
+			if re.search(message_id_re,row['MessageSource']):
+				pass 
+			else :
+				raise Exception("MessageSource ID was not having format xx-xxx... for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']))
+
+		except Exception  as e:
+			print e 
+			continue 
 
 
 
@@ -75,6 +82,11 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 		bank_sms_df.at[idx,"SENDER_CHILD_3"] = bank_details[4]
 
 	bank_sms_df = bank_sms_df.sort_values(by=["CustomerID", "AccountNo", "MessageTimestamp"], ascending=[True, True, True])
+
+	#Storing none type sms type to a another csv as non-classified
+	non_classified_sms = bank_sms_df[bank_sms_df['MessageType'] == 'None']
+	non_classified_sms = non_classified_sms[['SmsID', 'CustomerID', 'Message', 'MessageSource', 'MessageDate']]
+	non_classified_sms.to_csv('data_files/Non_classified/non_classified_sms.csv', index=False)
 
 	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_classified.csv',index = False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
