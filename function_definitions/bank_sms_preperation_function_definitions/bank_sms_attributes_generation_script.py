@@ -24,7 +24,7 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 			try:
 				SmsID = int(row['SmsID'])
 			except Exception as e:
-				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) ' at SmsID ' + str(row['SmsID']))
+				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at SmsID ' + str(row['SmsID']))
 
 
 			try:
