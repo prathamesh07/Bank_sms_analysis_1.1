@@ -9,46 +9,55 @@ from function_definitions.sms_level1_classification_func import bank_sms_filteri
 
 message_id_re = re.compile(r'\w+-\w+')
 
-
-
 def bank_sms_attributes_generation_func(bank_sms_df):
+	fp = open('data_files/Logs/exception_logs', 'a')
+	ExceptionCounter = 0
+	
 	for idx, row in bank_sms_df.iterrows():
 		print 1 , idx
 		
-		try :	
-			try:
-				CustomerID = int(row['CustomerID'])
-			except Exception as e:
-				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']))
-
-			try:
-				SmsID = int(row['SmsID'])
-			except Exception as e:
-				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at SmsID ' + str(row['SmsID']))
-
-
-			try:
-				row['Message'] = str(row['Message']).upper()
-			except Exception as e:
-				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
-			
-
-			try:
-				bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
-			except Exception as e:
-				raise type(e)(e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
-
-
-			if re.search(message_id_re,row['MessageSource']):
-				pass 
-			else :
-				raise Exception("MessageSource ID was not having format xx-xxx... for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']))
-
-		except Exception  as e:
-			print e 
+	
+		try:
+			CustomerID = int(row['CustomerID'])
+		except Exception as e:
+			ExceptionCounter += 1
+			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID'])+'\n\n')
 			continue 
 
 
+		try:
+			SmsID = int(row['SmsID'])
+		except Exception as e:
+			ExceptionCounter += 1
+			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at SmsID ' + str(row['SmsID']))
+			continue 
+
+
+
+		try:
+			row['Message'] = str(row['Message']).upper()
+		except Exception as e:
+			ExceptionCounter += 1
+			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
+			continue 
+
+		
+
+		try:
+			bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
+		except Exception as e:
+			ExceptionCounter += 1
+			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
+			continue 
+
+
+
+		if re.search(message_id_re,row['MessageSource']):
+			pass 
+		else :
+			ExceptionCounter += 1
+			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + "MessageSource ID was not having format xx-xxx... for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']))
+			continue 
 
 
 		extracted_data = getData(row['Message'])
@@ -90,4 +99,8 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 
 	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/bank_sms_classified.csv',index = False)
 	bank_sms_df.index = range(len(bank_sms_df.index.values))
+	
+	#Closing log file
+	fp.close()
+	
 	return bank_sms_df

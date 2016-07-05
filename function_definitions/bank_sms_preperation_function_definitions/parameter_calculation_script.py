@@ -47,17 +47,17 @@ def getNetTxnAmt(l):
 	global bank_sms_filtered_flaged_CASA
 	NetTxnAmt = 0
 	for i in l:
-		NetTxnAmt += bank_sms_filtered_flaged_CASA.at[i, 'TxnAmount']
+		NetTxnAmt += float(bank_sms_filtered_flaged_CASA.at[i, 'TxnAmount'])
 	return NetTxnAmt
 	
 def getMaxMinBalance(l):
 	global bank_sms_filtered_flaged_CASA
-	MaxBalance = '_NA_'
-	MinBalance = '_NA_'
+	MaxBalance = -99999999
+	MinBalance = +99999999
 	amount_to_consider = 0 
 	for i in l:
-		Amt_2 = bank_sms_filtered_flaged_CASA.at[i, 'Amt_2']
-		Amt_2_calculated = bank_sms_filtered_flaged_CASA.at[i, 'Amt_2_calculated']
+		Amt_2 = float(bank_sms_filtered_flaged_CASA.at[i, 'Amt_2'])
+		Amt_2_calculated = float(bank_sms_filtered_flaged_CASA.at[i, 'Amt_2_calculated'])
 		BulkTxnFlag = bank_sms_filtered_flaged_CASA.at[i, 'BulkTxnFlag']
 		if BulkTxnFlag in  [1,2] :
 			if Amt_2_calculated != -1:
@@ -76,7 +76,12 @@ def getMaxMinBalance(l):
 			MaxBalance = amount_to_consider 
 		if amount_to_consider < MinBalance :
 			MinBalance = amount_to_consider 
-
+		
+	if abs(MaxBalance + 99999999 ) < 0.001 :
+		MaxBalance = "_NA_"
+	if abs(MinBalance - 99999999 ) < 0.001 :
+		MinBalance = "_NA_"
+			
 	return (MaxBalance, MinBalance)
 	
 			
