@@ -8,13 +8,13 @@ import os
 
 
 Declined_keyphrases_list = []
-fp = open("data_files/sms_classification_level2_keywords/financial/bank_level2_classification/message_type_keywords/declined",'r')
+fp = open("C:\Users\iisha\Documents\GitHub\Bank_sms_analysis_1.1\data_files\sms_classification_level2_keywords/financial/bank_level2_classification/message_type_keywords/declined",'r')
 for key in fp.read().split('\n'):
 	if key !="":
 		Declined_keyphrases_list.append(str(key))
 
 
-ATM_keyphrases_list = []
+'''ATM_keyphrases_list = []
 fp = open("data_files/sms_classification_level2_keywords/financial/bank_level2_classification/message_type_keywords/atm",'r')
 for key in fp.read().split('\n'):
 	if key !="":
@@ -150,7 +150,7 @@ Loan_keyphrases_list = []
 fp = open( "data_files/sms_classification_level2_keywords/financial/bank_level2_classification/account_type_keywords/Loan",'r')
 for key in fp.read().split('\n'):
 	if key !="":
-		Loan_keyphrases_list.append(str(key))
+		Loan_keyphrases_list.append(str(key))'''
 
 
 		
