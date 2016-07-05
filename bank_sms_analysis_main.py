@@ -47,10 +47,20 @@ bank_sms_df = balance_rectification_func(bank_sms_df)
 bank_sms_df = balance_error_based_dummy_entry_generation_func(bank_sms_df)
 
 #Calculating some CASA parameters 
-casa_parameter_data = parameter_calculation_func(bank_sms_df)
+casa_parameter_data = parameter_calculation_func(bank_sms_df,'CASA')
 
 #Calculating rest of the CASA parameters
-casa_parameter_data = post_parameter_calculation_func(casa_parameter_data)
+casa_parameter_data = post_parameter_calculation_func(casa_parameter_data,'CASA')
+
+
+
+#Calculating some Credit_Card parameters 
+casa_parameter_data = parameter_calculation_func(bank_sms_df,'Credit_Card')
+
+#Calculating rest of the Credit_Card parameters
+casa_parameter_data = post_parameter_calculation_func(casa_parameter_data,'Credit_Card')
+
+
 
 
 tf = time()*1000

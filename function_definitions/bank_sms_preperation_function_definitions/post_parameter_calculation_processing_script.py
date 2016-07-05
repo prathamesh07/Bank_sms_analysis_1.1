@@ -2,7 +2,7 @@ import pandas
 from datetime import datetime,timedelta
 
 
-def post_parameter_calculation_func(bank_sms_df):
+def post_parameter_calculation_func(bank_sms_df,account_type):
 	bank_sms_df['TransactionDirectionFlag'] = 'Equal'
 	bank_sms_df['TransactionDirectionIndicator'] = 'Multidirectional'
 	bank_sms_df['OpeningBalance'] = '_NA_'
@@ -71,61 +71,59 @@ def post_parameter_calculation_func(bank_sms_df):
 
 	
 
-	temp = 0
+	# temp = 0
 	
-	#Creating entries for the days not present in  sms data
-	for idx,row in bank_sms_df.iterrows():
-		print 10, '\t\t', idx
-		current_user = str(row["CustomerID"]) + "*" +  str(row["BankName"]) + "*" + str(row["AccountNumber"])
-		if temp == 0 :
-			temp = 1
-			prev_user = current_user
-			continue 
-		if current_user != prev_user :
-			prev_user = current_user
-			continue 
+	# #Creating entries for the days not present in  sms data
+	# for idx,row in bank_sms_df.iterrows():
+	# 	print 10, '\t\t', idx
+	# 	current_user = str(row["CustomerID"]) + "*" +  str(row["BankName"]) + "*" + str(row["AccountNumber"])
+	# 	if temp == 0 :
+	# 		temp = 1
+	# 		prev_user = current_user
+	# 		continue 
+	# 	if current_user != prev_user :
+	# 		prev_user = current_user
+	# 		continue 
 			
-		current_date = row['Date'] 
-		prev_date = pandas.to_datetime(bank_sms_df.at[idx-1 , 'Date'])
-		days = (current_date - prev_date).days
+	# 	current_date = row['Date'] 
+	# 	prev_date = pandas.to_datetime(bank_sms_df.at[idx-1 , 'Date'])
+	# 	days = (current_date - prev_date).days
 		
-		if days <= 1 :
-			prev_user = current_user
-			continue
+	# 	if days <= 1 :
+	# 		prev_user = current_user
+	# 		continue
 		
-		prev_closing_bal = bank_sms_df.at[idx-1,'ClosingBalance']
+	# 	prev_closing_bal = bank_sms_df.at[idx-1,'ClosingBalance']
 		
 		
-		for d in range(1,days+1):
-			newdate = timedelta(d) +  current_date 
-			newRow = row 
-			newRow['Date'] = newdate 
-			newRow['MaxBalance'] = prev_closing_bal
-			newRow['MinBalance'] = prev_closing_bal
-			newRow['NetTxnAmt'] = float(0)
-			newRow['PercentOfCreditTxns'] = float(0)
-			newRow['PercentOfDebitTxns'] = float(0)
-			newRow['TotalBulkTxns'] = float(0)
-			newRow['TotalCreditTxns'] = float(0)
-			newRow['TotalDebitTxns'] = float(0)
-			newRow['TotalNumberOfTxns'] = float(0)
-			newRow['TransactionDirectionFlag'] = '_NA_'
-			newRow['TransactionDirectionIndicator'] = '_NA_'
-			newRow['OpeningBalance'] = prev_closing_bal
-			newRow['ClosingBalance'] = prev_closing_bal
-			newRow = pandas.DataFrame(newRow)
+	# 	for d in range(1,days+1):
+	# 		newdate = timedelta(d) +  current_date 
+	# 		newRow = row 
+	# 		newRow['Date'] = newdate 
+	# 		newRow['MaxBalance'] = prev_closing_bal
+	# 		newRow['MinBalance'] = prev_closing_bal
+	# 		newRow['NetTxnAmt'] = float(0)
+	# 		newRow['PercentOfCreditTxns'] = float(0)
+	# 		newRow['PercentOfDebitTxns'] = float(0)
+	# 		newRow['TotalBulkTxns'] = float(0)
+	# 		newRow['TotalCreditTxns'] = float(0)
+	# 		newRow['TotalDebitTxns'] = float(0)
+	# 		newRow['TotalNumberOfTxns'] = float(0)
+	# 		newRow['TransactionDirectionFlag'] = '_NA_'
+	# 		newRow['TransactionDirectionIndicator'] = '_NA_'
+	# 		newRow['OpeningBalance'] = prev_closing_bal
+	# 		newRow['ClosingBalance'] = prev_closing_bal
+	# 		newRow = pandas.DataFrame(newRow)
 			
-			bank_sms_df = bank_sms_df.append(newRow)
+	# 		bank_sms_df = bank_sms_df.append(newRow)
 		
-		prev_user = current_user 
+	# 	prev_user = current_user 
 	
 	
-	bank_sms_df.sort_values(['CustomerID','BankName','AccountNumber','Date'], inplace=True)
-	bank_sms_df.index = range(len(bank_sms_df.index.values))
+	# bank_sms_df.sort_values(['CustomerID','BankName','AccountNumber','Date'], inplace=True)
+	# bank_sms_df.index = range(len(bank_sms_df.index.values))
 	
-	bank_sms_df.to_csv('D:/Prathamesh/sms_data_analytics/chinmesh_data/Bank_sms_analysis_1.1/data_files/intermediate_output_files/banks/Post_CASA_parameters.csv',index = False)
+	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/Post_'+account_type+'_parameters.csv',index = False)
 		
 	return bank_sms_df
 
-df = pandas.read_csv('D:/Prathamesh/sms_data_analytics/chinmesh_data/Bank_sms_analysis_1.1/data_files/intermediate_output_files/banks/CASA_parameters.csv', parse_dates=['Date'])
-post_parameter_calculation_func(df)

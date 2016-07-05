@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 def balance_error_based_dummy_entry_generation_func(bank_sms_df):
-
+	bank_sms_df['DummyFlag'] = 0 
 	#Creating empty dataframe to store dummy sms
 	#dummy_sms = pd.DataFrame()
 	dummy_sms_df = pd.DataFrame()
@@ -36,7 +36,10 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			Currency_3 = '-'
 			Amt_3 = -1
 			Vendor = '_NA_'
-			TxnAmount = Amt_1
+
+			TxnAmount = float(row['Error'])
+			
+
 			RepeatedTxnFlag = 0
 			BulkTxnFlag = 0
 			
@@ -53,7 +56,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			'AccountType':pd.Series(AccountType), 'MessageSource':pd.Series(MessageSource), 'Message':pd.Series(Message), 'MessageTimestamp':dummy_entry_datetime, 'ReferenceNumber':pd.Series(ReferenceNumber), \
 			'MessageType':pd.Series(MessageType), 'Currency_1':pd.Series(Currency_1), 'Amt_1':Amt_1, 'Currency_2':pd.Series(Currency_2), 'Amt_2_calculated':Amt_2_calculated, 'Error':Error, \
 			'ConsecutiveTxnTimespan':pd.Series(ConsecutiveTxnTimespan), 'Currency_3':pd.Series(Currency_3), 'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'TxnAmount':TxnAmount, \
-			'RepeatedTxnFlag':RepeatedTxnFlag, 'BulkTxnFlag':BulkTxnFlag})
+			'RepeatedTxnFlag':RepeatedTxnFlag, 'BulkTxnFlag':BulkTxnFlag , 'DummyFlag':1})
 			
 			#Appending dummy sms to main dataframe
 			bank_sms_df = bank_sms_df.append(to_be_appended)
