@@ -14,7 +14,7 @@ utilities_dict = {}
 # 		bank = bank.split('\t')
 # 		bank_dict[bank[0]]  = [ value for value in bank[1:] ]
 
-df = pandas.read_csv('data_files/sms_classification_level1_keywords/financial/TABLE_20160421_SENDER_CLASSIFICATION_v01.csv')
+df = pandas.read_csv('data_files/sms_classification_level1_keywords/financial/TABLE_20160704_SENDER_CLASSIFICATION_v02.csv')
 df = df[df['SENDER_PARENT'] == 'FINANCIAL' ]
 df.fillna('_NA_',inplace=True)
 for i , row in df.iterrows():
