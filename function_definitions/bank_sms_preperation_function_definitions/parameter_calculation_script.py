@@ -113,7 +113,7 @@ def parameter_calculation_func(bank_sms_df,account_type):
 		print 9 , '\t\t' ,  i
 		#print bank_sms_filtered_flaged.at[i,'AccountType']
 
-		if flag == 1 or  :
+		if flag == 1 :
 			AllSMSOnADayCounter = 1
 			DummySMSCounter = 0
 
