@@ -157,7 +157,9 @@ def parameter_calculation_func(bank_sms_df,account_type):
 			
 		Date = datetime.strptime(Date_current, '%Y-%m-%d')
 		
-		to_be_appended = pd.DataFrame({'TotalSMSCount':AllSMSOnADayCounter,'DummySMSCount':DummySMSCounter,'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
+		percetOfDummyEntries = (float(DummySMSCounter)/float(AllSMSOnADayCounter))*100
+
+		to_be_appended = pd.DataFrame({'TotalSMSCount':AllSMSOnADayCounter,'DummySMSCount':DummySMSCounter,'PercentDummyEntries':percetOfDummyEntries,'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		DummyFlag_current = 0
