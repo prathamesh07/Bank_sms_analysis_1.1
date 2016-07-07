@@ -100,6 +100,9 @@ def parameter_calculation_func(bank_sms_df,account_type):
 	bank_sms_filtered_flaged = bank_sms_df[bank_sms_df['AccountType'] == account_type ]
 	bank_sms_filtered_flaged = bank_sms_filtered_flaged.reset_index(drop=True)
 
+	bank_sms_df['DummySMSCount'] = -1 
+	bank_sms_df['TotalSMSCount'] = -1 
+ 
 	#Creating list to store distinct user-bank-account-day combination's indexes
 	user_bank_acc_day_combination_idx_list=[0]
 
@@ -154,7 +157,7 @@ def parameter_calculation_func(bank_sms_df,account_type):
 			
 		Date = datetime.strptime(Date_current, '%Y-%m-%d')
 		
-		to_be_appended = pd.DataFrame({'TotalSMS':AllSMSOnADayCounter,'DummySMS':DummySMSCounter,'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
+		to_be_appended = pd.DataFrame({'TotalSMSCount':AllSMSOnADayCounter,'DummySMSCount':DummySMSCounter,'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		DummyFlag_current = 0
