@@ -3,6 +3,7 @@ from time import time
 
 from function_definitions.sms_level1_classification_func import bank_sms_filtering_func
 from function_definitions.bank_sms_preperation_function_definitions.bank_sms_attributes_generation_script import bank_sms_attributes_generation_func
+from function_definitions.bank_sms_preperation_function_definitions.classified_vs_nonclassified_tally_generation_script import classified_vs_nonclassified_tally_generation_func
 from function_definitions.bank_sms_preperation_function_definitions.account_type_rectification_script import account_type_rectification_func
 from function_definitions.bank_sms_preperation_function_definitions.casa_to_debit_card_mapping_script import casa_to_debit_card_mapping_func
 from function_definitions.bank_sms_preperation_function_definitions.balance_sms_adjustment_script import balance_sms_adjustment_func
@@ -24,6 +25,10 @@ bank_sms_df = bank_sms_filtering_func("user_sms_pipe.csv") # creates a 'bank_sms
 
 #Creating some new attributes in dataframe
 bank_sms_df = bank_sms_attributes_generation_func(bank_sms_df)
+
+
+#Creating data classified vs nonclassified tally
+classified_vs_nonclassified_tally_generation_func(bank_sms_df)
 
 #Rectifying the account type tag for each sms
 bank_sms_df = account_type_rectification_func(bank_sms_df)
