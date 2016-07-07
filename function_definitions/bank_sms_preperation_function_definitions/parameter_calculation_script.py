@@ -107,9 +107,17 @@ def parameter_calculation_func(bank_sms_df,account_type):
 	parameters = pd.DataFrame()
 	DummyFlag_current = 0
 
+	flag = 1 
+
 	for i in range(len(bank_sms_filtered_flaged)-1):
 		print 9 , '\t\t' ,  i
 		#print bank_sms_filtered_flaged.at[i,'AccountType']
+
+		if flag == 1 or  :
+			AllSMSOnADayCounter = 1
+			DummySMSCounter = 0
+
+
 
 		CustomerID_current = int(bank_sms_filtered_flaged.at[i, 'CustomerID'])
 		BankName_current = bank_sms_filtered_flaged.at[i, 'BankName']
@@ -129,17 +137,24 @@ def parameter_calculation_func(bank_sms_df,account_type):
 		Date_next = bank_sms_filtered_flaged.at[i+1, 'MessageTimestamp'].strftime('%Y-%m-%d')
 		
 		if CustomerID_current == CustomerID_next and BankName_current == BankName_next and AccountNo_current == AccountNo_next and Date_current == Date_next:
+			AllSMSOnADayCounter += 1 
 			user_bank_acc_day_combination_idx_list.append(i+1)
 			if bank_sms_filtered_flaged.at[i+1, 'DummyFlag'] == 1:
 				DummyFlag_current = 1
+				DummySMSCounter += 1
+				
+			flag = 0 
 			continue
+
+
 		else:
+			flag = 1 
 			TotalNumberOfTxns, TotalDebitTxns, TotalCreditTxns, TotalBulkTxns, PercentOfDebitTxns, PercentOfCreditTxns, NetTxnAmt, MaxBalance, MinBalance = parameterCalculationFunc(user_bank_acc_day_combination_idx_list)
 			user_bank_acc_day_combination_idx_list = [i+1]
 			
 		Date = datetime.strptime(Date_current, '%Y-%m-%d')
 		
-		to_be_appended = pd.DataFrame({'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
+		to_be_appended = pd.DataFrame({'TotalSMS':AllSMSOnADayCounter,'DummySMS':DummySMSCounter,'DummyFlag':DummyFlag_current,'CustomerID':CustomerID_current, 'BankName':pd.Series(BankName_current),'BankName':pd.Series(BankName_current), 'SENDER_PARENT':pd.Series(SENDER_PARENT_current), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1_current), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2_current), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3_current), 'AccountNumber':AccountNo_current, 'Date':Date, 'TotalNumberOfTxns':TotalNumberOfTxns, 'TotalDebitTxns':TotalDebitTxns, \
 		'TotalCreditTxns':TotalCreditTxns, 'TotalBulkTxns':TotalBulkTxns, 'PercentOfDebitTxns':PercentOfDebitTxns, 'PercentOfCreditTxns':PercentOfCreditTxns, 'NetTxnAmt':NetTxnAmt, 'MaxBalance':MaxBalance, 'MinBalance':MinBalance})
 		
 		DummyFlag_current = 0
