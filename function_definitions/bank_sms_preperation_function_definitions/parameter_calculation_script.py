@@ -169,6 +169,10 @@ def parameter_calculation_func(bank_sms_df,account_type):
 		
 	parameters.index = range(len(parameters.index.values))	
 
+	
+	parameters = parameters[['AccountNumber','BankName','CustomerID','Date','DummyFlag','DummySMSCount','TotalSMSCount','PercentDummyEntries','MaxBalance','MinBalance','NetTxnAmt','PercentOfCreditTxns','PercentOfDebitTxns','SENDER_CHILD_1','SENDER_CHILD_2','SENDER_CHILD_3','SENDER_PARENT','TotalBulkTxns','TotalCreditTxns','TotalDebitTxns','TotalNumberOfTxns',]]
+
+
 	parameters.to_csv('data_files/intermediate_output_files/banks/'+account_type+'_parameters.csv', index=False)
 	return parameters
 	
