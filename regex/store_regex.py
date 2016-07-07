@@ -237,7 +237,12 @@ regex['reference_number_regex'] = reference_number_re_list
 
 
 
-fileobject = open('regex.pkl','wb')
+try :
+	fileobject = open('../function_definitions/regex.pkl','wb')
+except :
+	fileobject = open('regex.pkl','wb')
+
+
 pickle.dump(regex,fileobject)
 fileobject.close()
 
