@@ -1,13 +1,18 @@
 import pandas as pd
 import time
 from time import sleep
+ 
+"""
+This script calculates error between consecutive sms for each user-bank-account combination. It also calculates the timespan (in days) over which
+the error has occured.
+"""
 
 def bank_sms_error_tally_generation_func(bank_sms_df):
 
 	#Filtering out RepeatedTxnFlag = 1 i.e duplicate sms
 	bank_sms_df = bank_sms_df[bank_sms_df['RepeatedTxnFlag'] != 1]
 
-	bank_sms_df = bank_sms_df[( ( (bank_sms_df['MessageType'] == 'ATM') & (bank_sms_df['Amt_1'] != -1) ) | (bank_sms_df['MessageType'] == 'Balance') | (bank_sms_df['MessageType'] == 'Debit') | (bank_sms_df['MessageType'] == 'Credit') ) & (bank_sms_df['AccountNo'] != "_NA_")]
+	bank_sms_df = bank_sms_df[( ( (bank_sms_df['MessageType'] == 'Debit') & (bank_sms_df['Amt_1'] != -1) ) | (bank_sms_df['MessageType'] == 'Balance') | (bank_sms_df['MessageType'] == 'Credit') ) & (bank_sms_df['AccountNo'] != "_NA_")]
 
 	bank_sms_df.index = range(len(bank_sms_df))
 
@@ -46,8 +51,7 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 		
 		flag = 0 
 		for idx in indexes[:-1] :
-			if float(bank_sms_df.at[idx,'Amt_2']) == -1 and flag == 0 :
-
+			if abs(float(bank_sms_df.at[idx,'Amt_2']) + 1) < 0.001 and flag == 0 : #float(bank_sms_df.at[idx,'Amt_2']) == -1
 				continue
 			else:
 				flag = 1 
@@ -55,16 +59,16 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 				current_bal_calculated = float(bank_sms_df.at[idx, 'Amt_2_calculated'])
 				current_bal = 0 
 
-				if current_bal_given != -1 :
+				if abs(current_bal_given + 1) > 0.001: #current_bal_given != -1:
 					current_bal = current_bal_given 
-				elif current_bal_calculated != -1 :
+				elif abs(current_bal_calculated + 1) > 0.001: #current_bal_calculated != -1
 					current_bal = current_bal_calculated 
 				else:
 					continue
 
 				next_amt1 = float(bank_sms_df.at[idx+1, 'Amt_1'])
 				
-				if bank_sms_df.at[idx+1, 'MessageType'] in ['ATM', 'Debit', 'Balance']:
+				if bank_sms_df.at[idx+1, 'MessageType'] in ['Debit', 'Balance']:
 					Amt_2_calculated = current_bal - next_amt1
 					
 				elif bank_sms_df.at[idx+1, 'MessageType'] == 'Credit':
@@ -72,7 +76,9 @@ def bank_sms_error_tally_generation_func(bank_sms_df):
 				
 				bank_sms_df.at[idx+1, 'Amt_2_calculated'] = Amt_2_calculated
 				
-				if (float(bank_sms_df.at[idx+1, 'Amt_2']) != -1) and (float(bank_sms_df.at[idx+1, 'Amt_2_calculated']) != -1):  # and (bank_sms_df.at[idx+1, 'MessageType'] != 'Balance'):
+				if abs(float(bank_sms_df.at[idx+1, 'Amt_2']) + 1) > 0.001 and abs(float(bank_sms_df.at[idx+1, 'Amt_2_calculated']) + 1) > 0.001:
+				#(float(bank_sms_df.at[idx+1, 'Amt_2']) != -1) and (float(bank_sms_df.at[idx+1, 'Amt_2_calculated']) != -1)
+				# and (bank_sms_df.at[idx+1, 'MessageType'] != 'Balance'):
 
 					error_timespan = (bank_sms_df.at[idx+1,'MessageTimestamp'] - bank_sms_df.at[idx,'MessageTimestamp']).days
 					error = float(bank_sms_df.at[idx+1, 'Amt_2']) - float(bank_sms_df.at[idx+1, 'Amt_2_calculated'])

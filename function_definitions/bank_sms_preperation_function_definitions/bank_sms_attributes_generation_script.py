@@ -5,7 +5,11 @@ import re
 from function_definitions.getters import getData
 from function_definitions.getters import getBankName
 from function_definitions.getters import getBankDetails
-from function_definitions.sms_level1_classification_func import bank_sms_filtering_func
+
+
+"""
+This script generates different attribute columns like account number, account type, message type etc, for the filtered out bank sms.
+"""
 
 message_id_re = re.compile(r'\w+-\w+')
 
@@ -15,22 +19,22 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 	
 	for idx, row in bank_sms_df.iterrows():
 		print 1 , idx
-		
 	
 		try:
 			CustomerID = int(row['CustomerID'])
 		except Exception as e:
 			ExceptionCounter += 1
-			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID'])+'\n\n')
-			continue 
+			fp.write(str(ExceptionCounter) + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + '\n')
+			continue
 
 
 		try:
 			SmsID = int(row['SmsID'])
+			#print SmsID, '$$$$$', type(SmsID)
 		except Exception as e:
 			ExceptionCounter += 1
-			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at SmsID ' + str(row['SmsID']))
-			continue 
+			fp.write(str(ExceptionCounter) + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at SmsID ' + str(row['SmsID']) + '\n')
+			continue
 
 
 
@@ -38,8 +42,8 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 			row['Message'] = str(row['Message']).upper()
 		except Exception as e:
 			ExceptionCounter += 1
-			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"')
-			continue 
+			fp.write(str(ExceptionCounter) + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "Message"' + '\n')
+			continue
 
 		
 
@@ -47,8 +51,8 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 			bank_sms_df.at[idx,"MessageTimestamp"] = datetime.fromtimestamp(row['MessageDate']/1000)
 		except Exception as e:
 			ExceptionCounter += 1
-			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"')
-			continue 
+			fp.write(str(ExceptionCounter) + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + e.message + " >>> " + 'Found for CustomerID ' + str(row['CustomerID']) + ' at row having SmsID '+str(row['SmsID'])+' and column "MessageDate"' + '\n')
+			continue
 
 
 
@@ -56,10 +60,10 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 			pass 
 		else :
 			ExceptionCounter += 1
-			fp.write(ExceptionCounter + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + "MessageSource ID was not having format xx-xxx... for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']))
-			continue 
-
-
+			fp.write(str(ExceptionCounter) + '\t' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t' + "MessageSource ID was not having format xx-xxx... for CustomerID "  + str(row['CustomerID']) +  ' at row having SmsID '+str(row['SmsID']) + '\n')
+			continue
+		
+	
 		extracted_data = getData(row['Message'])
 		bank_name = getBankName(row['MessageSource'])
 		bank_details = getBankDetails(row['MessageSource'])	
@@ -89,6 +93,11 @@ def bank_sms_attributes_generation_func(bank_sms_df):
 		bank_sms_df.at[idx,"SENDER_CHILD_1"] = bank_details[2]
 		bank_sms_df.at[idx,"SENDER_CHILD_2"] = bank_details[3]
 		bank_sms_df.at[idx,"SENDER_CHILD_3"] = bank_details[4]
+		
+		#Replacing Message type from ATM to debit
+		if extracted_data[0] == 'ATM':
+			bank_sms_df.at[idx, "MessageType"] = 'Debit'
+		
 
 	bank_sms_df = bank_sms_df.sort_values(by=["CustomerID", "AccountNo", "MessageTimestamp"], ascending=[True, True, True])
 

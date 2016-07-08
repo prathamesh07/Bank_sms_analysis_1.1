@@ -22,6 +22,7 @@ from checkers import isPrepaid_Card
 from checkers import isLoan
 
 from checkers import isNEFT
+from checkers import isIMPS
 from checkers import isNetBanking
 from checkers import isCheque
 
@@ -96,6 +97,7 @@ def getCategory(message): # simple method that just uses the methods from checke
 		return "Declined"
 	if isATM(message) and not isCredit(message):
 		return "ATM"
+		#return 'Debit'
 	if isOTP(message) :
 		return "OTP"
 	if isBalance(message) and not isCredit(message) and not isDebit(message) and not isDebit_2(message):
@@ -232,6 +234,8 @@ def getTxnInstrument(message):				# returns the transection instrument
 		return "ATM"
 	if isNEFT(message):
 		return "NEFT"
+	if isIMPS(message):
+		return "IMPS"
 	if isNetBanking(message):
 		return "NetBanking"
 	else:

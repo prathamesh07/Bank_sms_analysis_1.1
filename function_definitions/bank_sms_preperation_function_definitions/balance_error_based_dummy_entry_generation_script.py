@@ -24,6 +24,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 			AccountType = row['AccountType']
 			MessageSource = row['MessageSource']
 			ReferenceNumber = '_NA_'
+			TxnInstrument = '_NA_'
 			MessageType = 'Credit' if float(row['Error']) >=0 else 'Debit'
 			Currency_1 = row['Currency_1']
 			Amt_1 = abs(float(row['Error']))
@@ -53,7 +54,7 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 				dummy_entry_datetime = (current_date - prev_date)/2 + prev_date
 				
 			to_be_appended = pd.DataFrame({'SmsID':SmsID, 'CustomerID':CustomerID, 'BankName':pd.Series(BankName), 'SENDER_PARENT':pd.Series(SENDER_PARENT), 'SENDER_CHILD_1':pd.Series(SENDER_CHILD_1), 'SENDER_CHILD_2':pd.Series(SENDER_CHILD_2), 'SENDER_CHILD_3':pd.Series(SENDER_CHILD_3), 'AccountNo':AccountNo, 'LinkedDebitCardNumber':pd.Series(LinkedDebitCardNumber), \
-			'AccountType':pd.Series(AccountType), 'MessageSource':pd.Series(MessageSource), 'Message':pd.Series(Message), 'MessageTimestamp':dummy_entry_datetime, 'ReferenceNumber':pd.Series(ReferenceNumber), \
+			'AccountType':pd.Series(AccountType), 'MessageSource':pd.Series(MessageSource), 'Message':pd.Series(Message), 'MessageTimestamp':dummy_entry_datetime, 'ReferenceNumber':pd.Series(ReferenceNumber), 'TxnInstrument':TxnInstrument, \
 			'MessageType':pd.Series(MessageType), 'Currency_1':pd.Series(Currency_1), 'Amt_1':Amt_1, 'Currency_2':pd.Series(Currency_2), 'Amt_2_calculated':Amt_2_calculated, 'Error':Error, \
 			'ConsecutiveTxnTimespan':pd.Series(ConsecutiveTxnTimespan), 'Currency_3':pd.Series(Currency_3), 'Amt_3':Amt_3, 'Vendor':pd.Series(Vendor), 'TxnAmount':TxnAmount, \
 			'RepeatedTxnFlag':RepeatedTxnFlag, 'BulkTxnFlag':BulkTxnFlag , 'DummyFlag':1})
@@ -73,7 +74,3 @@ def balance_error_based_dummy_entry_generation_func(bank_sms_df):
 	dummy_sms_df.to_csv('data_files/intermediate_output_files/banks/only_dummy_entries.csv', index=False)
 	
 	return bank_sms_df
-	
-	
-#df = pd.read_csv('D:/Prathamesh/sms_data_analytics/chinmesh_data/Bank_sms_analysis_1.1/data_files/intermediate_output_files/banks/bank_sms_filtered_flaged.csv', parse_dates=['MessageTimestamp'])			
-#balance_error_based_dummy_entry_generation_func(df)
