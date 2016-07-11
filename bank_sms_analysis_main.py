@@ -19,8 +19,6 @@ ti = time()*1000
 
 #Filtering bank sms from all sms
 bank_sms_df = bank_sms_filtering_func("user_sms_pipe.csv") # creates a 'bank_sms_raw.csv' file
-#Storing none type sms type to a another csv
-
 
 
 #Creating some new attributes in dataframe

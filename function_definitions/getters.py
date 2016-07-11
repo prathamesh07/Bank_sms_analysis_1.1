@@ -1,32 +1,6 @@
 import re
 
-from checkers import isATM
-from checkers import isDeclined
-from checkers import isDebit
-from checkers import isDebit_2
-from checkers import isCredit
-from checkers import isBalance
-from checkers import isOTP
-from checkers import isMin_balance
-from checkers import isInfo
-from checkers import isPayment_due
-from checkers import isAdvert
-from checkers import isWarning
-from checkers import isAcknowledge
-
-from checkers import isCASA
-from checkers import isDebit_Card
-from checkers import isCredit_Card
-from checkers import isWallet
-from checkers import isPrepaid_Card
-from checkers import isLoan
-
-from checkers import isNEFT
-from checkers import isIMPS
-from checkers import isNetBanking
-from checkers import isCheque
-
-from checkers import isAccount_Number_False_Alarm
+from checkers import checkers_func
 
 
 from regex_extractor_from_pickle import account_number_re_list
@@ -46,7 +20,7 @@ currency_re = re.compile(r'[A-Za-z]+') # regular expression for 1 or more upper 
 nonalpha = re.compile(r'[^a-zA-Z ]+')  # regular expression for 1 or more non alpha character
 
 
-
+#------------------------------------------------------------------------------------------------------
 
 def getMoney(message,category):	# returns upto 3 sets of amount and currency if present
 	global money_re_list
@@ -89,65 +63,84 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 		Currency[i] = str(CUR).replace("BALANCE","INR").replace('IS','INR').replace('X','INR').replace('LEDG','INR').replace('BAL','INR')
 	return Currency+Amount # returns a list of currency and corresponding actual amounts 
 
+#--------------------------------------------------------------------------------------------
 
 def getCategory(message): # simple method that just uses the methods from checkers file to return the category of the message
 	message = str(message)
 	#print(message[:10])
-	if isDeclined(message):
+	if checkers_func(message, 'Declined'):
 		return "Declined"
-	if isATM(message) and not isCredit(message):
+	if checkers_func(message, 'ATM') and not checkers_func(message, 'Credit'):
 		return "ATM"
 		#return 'Debit'
-	if isOTP(message) :
+	if checkers_func(message, 'OTP') :
 		return "OTP"
-	if isBalance(message) and not isCredit(message) and not isDebit(message) and not isDebit_2(message):
+	if checkers_func(message, 'Balance') and not checkers_func(message, 'Credit') and not checkers_func(message, 'Debit') and not checkers_func(message, 'Debit_2'):
 		return "Balance"
-	if isDebit_2(message) and not isCredit(message):
+	if checkers_func(message, 'Debit_2') and not checkers_func(message, 'Credit'):
 		return "Debit"
 		#return "Debit_2"
-	if isCredit(message):
+	if checkers_func(message, 'Credit'):
 		return "Credit"
-	if isDebit(message):
+	if checkers_func(message, 'Debit'):
 		return "Debit"
-	if isMin_balance(message):
+	if checkers_func(message, 'Min_balance'):
 		return "Minimum_balance"
-	if isPayment_due(message):
+	if checkers_func(message, 'Payment_due'):
 		return "Payment_due"
-	if isWarning(message):
+	if checkers_func(message, 'Warning'):
 		return "Warning"
-	if isAcknowledge(message):
+	if checkers_func(message, 'Acknowledge'):
 		return "Acknowledge"
-	if isAdvert(message):
+	if checkers_func(message, 'Advert'):
 		return "Advert"
-	if isInfo(message):
+	if checkers_func(message, 'Info'):
 		return "Info"
 	else :
 		return "None"
+		
+#-------------------------------------------------------------------------------------------------
 
 def getAccountType(message): # simple method that just uses the methods from checkers file to return the Account_type of the message
-	if isDebit_Card(message):
+	if checkers_func(message, 'Debit_Card'):
 		return "Debit_Card"
-	if isCredit_Card(message):
+	if checkers_func(message, 'Credit_Card'):
 		return "Credit_Card"
-	if isCASA(message):
+	if checkers_func(message, 'CASA'):
 		return "CASA"
-	if isWallet(message) :
+	if checkers_func(message, 'Wallet') :
 		return 'Wallet'
-	if isPrepaid_Card(message):
+	if checkers_func(message, 'Prepaid_Card'):
 		return 'Prepaid_Card'
-	if isLoan(message):
+	if checkers_func(message, 'Loan'):
 		return 'Loan'
 	else:
 		return "_NA_"
 
+#-------------------------------------------------------------------------------------------------------
 
+def getTxnInstrument(message):				# returns the transection instrument
+	if checkers_func(message, 'Debit_Card'):
+		return "Debit_Card"
+	if checkers_func(message, 'ATM'):
+		return "ATM"
+	if checkers_func(message, 'NEFT'):
+		return "NEFT"
+	if checkers_func(message, 'IMPS'):
+		return "IMPS"
+	if checkers_func(message, 'NetBanking'):
+		return "NetBanking"
+	else:
+		return '_NA_'
 
+#-------------------------------------------------------------------------------	
+		
 def getAccountNumber(message): # retuns the account number
 	global account_number_re_list
 	account_number = "_NA_"
 	for account_number_re in account_number_re_list : # iterates over the ac no re list from regex to find the account number
 		search_object = re.search(account_number_re,message)
-		if search_object and not isAccount_Number_False_Alarm(message) : # NOW THE Payee Ac No WILL NOT BE EXTRECTED
+		if search_object and not checkers_func(message, 'Account_Number_False_Alarm') : # NOW THE Payee Ac No WILL NOT BE EXTRECTED
 			
 			account_number = ""
 			account_number += str(search_object.group(1))
@@ -160,6 +153,7 @@ def getAccountNumber(message): # retuns the account number
 
 	return account_number
 
+#--------------------------------------------------------------------------------
 
 def getTransactionSource(message , category): # tries to return the transaction source, i.e. vendor , etc 
 
@@ -201,8 +195,7 @@ def getTransactionSource(message , category): # tries to return the transaction 
 
 	return 'ERROR/Not_Specified'
 
-
-
+#---------------------------------------------------------------------------------
 
 def getBankName(message_source): # returns the bank name from the sms senders ID
 	global bank_dict
@@ -211,9 +204,10 @@ def getBankName(message_source): # returns the bank name from the sms senders ID
 		bank_name = bank_dict[message_source]
 	else :
 		bank_name = "_NA_"
-
-		
 	return bank_name
+	
+#--------------------------------------------------------------------------------------
+	
 def getReferenceNumber(message):	# returns the reference number in the message if present 
 	#message = message.replace('/','')
 	global reference_number_re_list 
@@ -225,25 +219,7 @@ def getReferenceNumber(message):	# returns the reference number in the message i
 				return ref_no 
 	return "_NA_"
 	
-	
-	
-def getTxnInstrument(message):				# returns the transection instrument
-	if isDebit_Card(message):
-		return "Debit_Card"
-	if isATM(message):
-		return "ATM"
-	if isNEFT(message):
-		return "NEFT"
-	if isIMPS(message):
-		return "IMPS"
-	if isNetBanking(message):
-		return "NetBanking"
-	else:
-		return '_NA_'
-	
-
-
-
+#---------------------------------------------------------------------------------------
 
 	
 def getData(message): # this is the main method that retuns all the data as a list with the help of above functions
@@ -267,7 +243,7 @@ def getData(message): # this is the main method that retuns all the data as a li
 
 	return [category] + [money_currency[0]] + [money_currency[3]]+ [money_currency[1]]+ [money_currency[4]]+ [money_currency[2]]+ [money_currency[5]]+ [account_number]+ [trensection_source] + [account_type] + [reference_number] + [txn_instrument]
 
-
+#-----------------------------------------------------------------------------------------------------
 
 def getBankDetails(message_source): # returns the bank name from the sms senders ID
 	global bank_dict
@@ -277,6 +253,5 @@ def getBankDetails(message_source): # returns the bank name from the sms senders
 	else :
 		bank_det = "_NA_"
 
-		
 	return bank_det
 
