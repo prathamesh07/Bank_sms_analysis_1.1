@@ -1,4 +1,5 @@
 import pandas 
+from numpy import timedelta64
 from datetime import datetime,timedelta
 
 
@@ -127,3 +128,80 @@ def post_parameter_calculation_func(bank_sms_df,account_type):
 		
 	return bank_sms_df
 
+
+
+
+
+
+def get_relaviant_dataframe(df,tt='both',at='CASA',m=1,an=0,sn=''):
+
+	if tt == 'both' :
+		ttlist = ['Credit','Debit']
+	else :
+		ttlist = [tt] 
+
+	new_df = df[ (df['MessageType'].map(lembda x : x in ttlist ) ) & (df['AccountType'] == at) & (df['AccountNo'] == an) & (df['BankName'] == sn) ]
+
+	last_date = new.tail(1)['Date']
+	last_valid_date = last_date - timedelta64(m,'M')
+
+	new_df = new_df[ new_df['Date'] > last_valid_date ]
+
+	return new_df
+
+
+def get_no_of_Transaction(df,tt='both',at='CASA',m=1,an=0,sn=''):
+
+	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	return len(rdf)
+
+def get_net_transaction(df,tt='both',at='CASA',m=1,an=0,sn=''):
+
+	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	NetTxnAmt  = 0 
+
+	for idx , row in rdf.iterrows():
+		NetTxnAmt+= float(row['NetTxnAmt'])
+
+	return NetTxnAmt
+
+
+def get_amount_per_transaction(df,tt='both',at='CASA',m=1,an=0,sn=''):
+
+	NetTxnAmt = get_net_transactio(df,tt=tt,at=at,m=m,an=an,sn=sn)
+	no_of_txn = get_no_of_Transaction(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	if (no_of_txn > 0 ):
+		return NetTxnAmt/no_of_txn
+	return 0.0 	
+
+def get_amount_per_month(df,tt='both',at='CASA',m=1,an=0,sn=''):
+	NetTxnAmt = get_net_transactio(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	return NetTxnAmt/m
+
+def get_maximum_balance(df,tt='both',at='CASA',m=1,an=0,sn=''):
+	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	maxbal = -99999999
+
+	for idx,row in rdf.iterrows():
+
+		if row['MaxBalance'] > maxbal :
+			maxbal = row['MaxBalance']
+
+	return maxbal 
+
+def get_minimum_balance(df,tt='both',at='CASA',m=1,an=0,sn=''):
+	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
+
+	minbal = 99999999
+
+	for idx,row in rdf.iterrows():
+
+		if row['MinBalance'] < minbal :
+			minbal = row['MaxBalance']
+
+	return minbal 

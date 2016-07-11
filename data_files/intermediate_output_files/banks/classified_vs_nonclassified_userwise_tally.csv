@@ -3,7 +3,6 @@ CustomerID,AccountNo,TotalSmsClassified,TotalSmsNonClassified,PercentOfSmsClassi
 2364,0023,2,0,100.0
 3005,6112,46,0,100.0
 2573,9653,17,0,100.0
-2671,3578,9,0,100.0
 2565,7210,4,0,100.0
 3279,7863,7,0,100.0
 3759,9418,6,0,100.0
@@ -45,6 +44,7 @@ CustomerID,AccountNo,TotalSmsClassified,TotalSmsNonClassified,PercentOfSmsClassi
 2869,4871,3,5,37.5
 19,9549,3,0,100.0
 2833,3490,5,0,100.0
+2671,3578,9,0,100.0
 3819,9070,2,0,100.0
 2509,4731,1,0,100.0
 3296,3636,31,0,100.0
@@ -446,6 +446,7 @@ CustomerID,AccountNo,TotalSmsClassified,TotalSmsNonClassified,PercentOfSmsClassi
 2522,5616,373,3,99.2021276596
 2511,0860,2,0,100.0
 2476,0466,1,0,100.0
+2748,1571,1,0,100.0
 2906,0007,3,0,100.0
 2594,0698,1,0,100.0
 2412,8412,15,0,100.0
@@ -1276,7 +1277,6 @@ CustomerID,AccountNo,TotalSmsClassified,TotalSmsNonClassified,PercentOfSmsClassi
 2902,0010,1,0,100.0
 2863,4121,8,0,100.0
 2953,4115,1,0,100.0
-2748,1571,1,0,100.0
 2649,0433,3,0,100.0
 2975,0921,2,0,100.0
 2621,0072,6,0,100.0
