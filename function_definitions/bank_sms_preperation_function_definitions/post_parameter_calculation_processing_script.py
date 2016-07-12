@@ -140,7 +140,10 @@ def get_relaviant_dataframe(df,tt='both',at='CASA',m=1,an=0,sn=''):
 	else :
 		ttlist = [tt] 
 
-	new_df = df[ (df['MessageType'].map(lembda x : x in ttlist ) ) & (df['AccountType'] == at) & (df['AccountNo'] == an) & (df['BankName'] == sn) ]
+	if an >=0 :
+		new_df = df[ (df['MessageType'].map(lembda x : x in ttlist ) ) & (df['AccountType'] == at) & (df['AccountNo'] == an) & (df['BankName'] == sn) ]
+	else :
+		new_df = df[ (df['MessageType'].map(lembda x : x in ttlist ) ) & (df['AccountType'] == at) & (df['BankName'] == sn) ]
 
 	last_date = new.tail(1)['Date']
 	last_valid_date = last_date - timedelta64(m,'M')
