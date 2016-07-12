@@ -10,6 +10,7 @@ from regex_extractor_from_pickle import credit_vendor_re_list
 from regex_extractor_from_pickle import money_re_list
 from regex_extractor_from_pickle import junk_re_list
 from regex_extractor_from_pickle import reference_number_re_list
+from regex_extractor_from_pickle import credit_card_limit_re_list
 
 from all_dict_generator import bank_dict
 
@@ -53,6 +54,16 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 		
 
 	RS = RS[:3] # pick only 1st 3 amounts from them
+
+	credit_limit = [] # replce the last amount with the 1st amount found from the credit card limit re list 
+	for credit_limit_re in credit_card_limit_re_list :
+		credit_limit += re.search(credit_limit_re,message)
+
+	try :
+		RS[2] = credit_limit[0] 
+	except IndexError :
+		RS[:2]
+		pass 
 
 	for i  in range(len(RS)): # for each amount, split it into its currency and the actual amount
 		AMT = re.search(amount_re,RS[i]).group()
