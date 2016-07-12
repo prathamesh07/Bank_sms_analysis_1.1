@@ -249,7 +249,7 @@ regex['credit_vendor_regex'] = credit_vendor_re_list
 regex['money_regex'] = money_re_list
 regex['junk_regex'] = junk_re_list
 regex['reference_number_regex'] = reference_number_re_list
-
+regex['credit_card_limit_regex'] =  credit_card_limit_re_list
 
 
 try :
