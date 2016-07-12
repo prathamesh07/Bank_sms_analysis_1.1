@@ -28,21 +28,22 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 	global amount_re
 	global currency_re
 	
+	message = message.replace(',','').replace('  ','')
 
 	Amount = ['-1','-1','-1']
 	Currency = ['-','-','-']
 
 	RS = []
-	RS += re.findall(money_re_list[0],message.replace(',','').replace('  ','')) # checks with a particular regex to get ammount
-	RS += re.findall(money_re_list[2],message.replace(',','').replace('  ','')) # checks with other
+	RS += re.findall(money_re_list[0],message) # checks with a particular regex to get ammount
+	RS += re.findall(money_re_list[2],message) # checks with other
  	if category in ['Balance'] :
-		RS += re.findall(money_re_list[1],message.replace(',','').replace('  ','')) # if category is balance, checks with 1 more 
+		RS += re.findall(money_re_list[1],message) # if category is balance, checks with 1 more 
 	if category in ['Debit'] :
-		RS += re.findall(money_re_list[3],message.replace(',','').replace('  ','')) # if category is debit, checks with 1 more
+		RS += re.findall(money_re_list[3],message) # if category is debit, checks with 1 more
 
 	if RS == [] :
 		try :
-			RS = ['INR ' + re.search(money_re_list[4],message.replace(',','').replace('  ','')).group(1)] # if after above tries still nothing is found
+			RS = ['INR ' + re.search(money_re_list[4],message).group(1)] # if after above tries still nothing is found
 		except :																						  # it tries another regex				
 			pass
 
@@ -50,7 +51,7 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 	# 	for moneypattern in money_re_list[3:]:
 	if len(RS) < 3 :                                 # if after above process still we have less then 3 amounts, try remaining regex
 		for i in range(5, len(money_re_list)):
-			RS += re.findall(money_re_list[i],message.replace(',','').replace('  ',''))
+			RS += re.findall(money_re_list[i],message)
 		
 
 	RS = RS[:3] # pick only 1st 3 amounts from them
