@@ -943,4 +943,13 @@ p472
 I0
 tp473
 Rp474
+asS'credit_card_limit_regex'
+p475
+(lp476
+g3
+(S'TOTAL CRE?D?I?T? LI?MI?T ?:? ?((?:INR|RS|USD|SGD)\\W{0,2}\\d+\\.?\\d{0,2})'
+p477
+I0
+tp478
+Rp479
 as.

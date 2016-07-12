@@ -57,7 +57,8 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 
 	credit_limit = [] # replce the last amount with the 1st amount found from the credit card limit re list 
 	for credit_limit_re in credit_card_limit_re_list :
-		credit_limit += re.search(credit_limit_re,message)
+		#print credit_limit_re, '*********', type(credit_limit_re)
+		credit_limit += re.findall(credit_limit_re,message)
 
 	try :
 		RS[2] = credit_limit[0] 
