@@ -63,7 +63,7 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 	try :
 		RS[2] = credit_limit[0] 
 	except IndexError :
-		RS[:2]
+		RS = RS[:2]
 		pass 
 
 	for i  in range(len(RS)): # for each amount, split it into its currency and the actual amount
