@@ -69,60 +69,6 @@ def post_parameter_calculation_func(bank_sms_df,account_type):
 
 		else :
 			pass
-
-	
-
-	# temp = 0
-	
-	# #Creating entries for the days not present in  sms data
-	# for idx,row in bank_sms_df.iterrows():
-	# 	print 10, '\t\t', idx
-	# 	current_user = str(row["CustomerID"]) + "*" +  str(row["BankName"]) + "*" + str(row["AccountNumber"])
-	# 	if temp == 0 :
-	# 		temp = 1
-	# 		prev_user = current_user
-	# 		continue 
-	# 	if current_user != prev_user :
-	# 		prev_user = current_user
-	# 		continue 
-			
-	# 	current_date = row['Date'] 
-	# 	prev_date = pandas.to_datetime(bank_sms_df.at[idx-1 , 'Date'])
-	# 	days = (current_date - prev_date).days
-		
-	# 	if days <= 1 :
-	# 		prev_user = current_user
-	# 		continue
-		
-	# 	prev_closing_bal = bank_sms_df.at[idx-1,'ClosingBalance']
-		
-		
-	# 	for d in range(1,days+1):
-	# 		newdate = timedelta(d) +  current_date 
-	# 		newRow = row 
-	# 		newRow['Date'] = newdate 
-	# 		newRow['MaxBalance'] = prev_closing_bal
-	# 		newRow['MinBalance'] = prev_closing_bal
-	# 		newRow['NetTxnAmt'] = float(0)
-	# 		newRow['PercentOfCreditTxns'] = float(0)
-	# 		newRow['PercentOfDebitTxns'] = float(0)
-	# 		newRow['TotalBulkTxns'] = float(0)
-	# 		newRow['TotalCreditTxns'] = float(0)
-	# 		newRow['TotalDebitTxns'] = float(0)
-	# 		newRow['TotalNumberOfTxns'] = float(0)
-	# 		newRow['TransactionDirectionFlag'] = '_NA_'
-	# 		newRow['TransactionDirectionIndicator'] = '_NA_'
-	# 		newRow['OpeningBalance'] = prev_closing_bal
-	# 		newRow['ClosingBalance'] = prev_closing_bal
-	# 		newRow = pandas.DataFrame(newRow)
-			
-	# 		bank_sms_df = bank_sms_df.append(newRow)
-		
-	# 	prev_user = current_user 
-	
-	
-	# bank_sms_df.sort_values(['CustomerID','BankName','AccountNumber','Date'], inplace=True)
-	# bank_sms_df.index = range(len(bank_sms_df.index.values))
 	
 	bank_sms_df.to_csv('data_files/intermediate_output_files/banks/Post_'+account_type+'_parameters.csv',index = False)
 		
@@ -167,7 +113,7 @@ def get_net_transaction(df,tt='both',at='CASA',m=1,an=0,sn=''):
 
 
 def get_amount_per_transaction(df,tt='both',at='CASA',m=1,an=0,sn=''):
-	NetTxnAmt = get_net_transactio(df,tt=tt,at=at,m=m,an=an,sn=sn)
+	NetTxnAmt = get_net_transaction(df,tt=tt,at=at,m=m,an=an,sn=sn)
 	no_of_txn = get_no_of_Transaction(df,tt=tt,at=at,m=m,an=an,sn=sn)
 	if (no_of_txn > 0 ):
 		return NetTxnAmt/no_of_txn
@@ -183,19 +129,44 @@ def get_maximum_balance(df,tt='both',at='CASA',m=1,an=0,sn=''):
 	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
 	maxbal = -99999999
 	for idx,row in rdf.iterrows():
-		if row['MaxBalance'] > maxbal :
+		if row['MaxBalance'] > maxbal and str(row['MaxBalance']).isdigit():
 			maxbal = row['MaxBalance']
-	return maxbal 
+	
+	if maxbal == -99999999:
+		return '_NA_'
+	return maxbal
+
 
 	
 def get_minimum_balance(df,tt='both',at='CASA',m=1,an=0,sn=''):
 	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
 	minbal = 99999999
 	for idx,row in rdf.iterrows():
-		if row['MinBalance'] < minbal :
+		if row['MinBalance'] < minbal and str(row['MinBalance']).isdigit():
 			minbal = row['MaxBalance']
+			
+	if minbal == 99999999:
+		return '_NA_'
 	return minbal
 	
 	
-def getUtilization(df,tt='both',at='CASA',m=1,an=0,sn=''):
+def getUtilization(df,tt='both',at='Credit_Card',m=1,an=0,sn=''):
 	rdf = get_relaviant_dataframe(df,tt=tt,at=at,m=m,an=an,sn=sn)
+	minbal = get_minimum_balance(df,tt='both',at='Credit_Card',m=1,an=0,sn='')
+	
+	Amt_3 = -99999999
+	for idx, row in rdf.iterrows():
+		if row['Amt_3'].isdigit() and row['Amt_3'] > Amt_3 :
+			Amt_3 = row['Amt_3']
+			
+	if Amt_3 == -99999999:
+		Amt_3 = '_NA_'
+		
+	try:
+		Utilization = (float(Amt_3)-float(minbal))/float(Amt_3)
+	except ValueError:
+		Utilization = '_NA_'
+	except ZeroDivisionError:
+		Utilization = '_NA_'
+	
+	return Utilization
