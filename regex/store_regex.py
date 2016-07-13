@@ -202,6 +202,7 @@ money_re_list.append(re.compile(r'BAL ?\W ?\d+\.?\d{0,2}'))
 money_re_utility_list = []
 #money_re_utility_list.append(re.compile(r"))
 
+
 reference_number_re_list = []
 
 reference_number_re_list.append(re.compile(r"REFERENCE NUMBER IS:([A-Z0-9]+)",re.IGNORECASE))
@@ -260,6 +261,20 @@ reference_number_utility_re_list.append(re.compile(r"ID([0-9]+)"))
 
 
 
+credit_card_limit_re_list = []
+
+credit_card_limit_re_list.append(re.compile(r'TOTAL CRE?D?I?T? LI?MI?T ?:? ?((?:INR|RS|USD|SGD)\W{0,2}\d+\.?\d{0,2})'))
+
+
+
+
+
+
+
+
+
+
+
 regex = {}
 regex['account_number_regex'] = account_number_re_list
 regex['debit_vendor_regex'] = debit_vendor_re_list
@@ -269,10 +284,14 @@ regex['money_regex'] = money_re_list
 regex['junk_regex'] = junk_re_list
 regex['reference_number_regex'] = reference_number_re_list
 regex['reference_number_utility_regex'] = reference_number_utility_re_list
+regex['credit_card_limit_regex'] =  credit_card_limit_re_list
+
+try :
+	fileobject = open('../function_definitions/regex.pkl','wb')
+except :
+	fileobject = open('regex.pkl','wb')
 
 
-
-fileobject = open('regex.pkl','wb')
 pickle.dump(regex,fileobject)
 fileobject.close()
 

@@ -28,9 +28,9 @@ def account_type_rectification_func(bank_sms_df):
 		#print AccountNo, type(AccountNo), '%%%%%%%%'
 		#print key, '############'
 		
-		if key in user_account_combinations_idx_dict.keys():
+		try:
 			user_account_combinations_idx_dict[key].append(idx)
-		else:
+		except KeyError:
 			user_account_combinations_idx_dict[key] = [idx]
 		
 		if user_account_combinations_dict.get(key) == None:
@@ -60,20 +60,17 @@ def account_type_rectification_func(bank_sms_df):
 		
 	#Account type correction logic
 	for key in user_account_combinations_dict.keys():
-		#print "resched for loop " , key
 		actual_account_type = ""
-		#print key
 		if user_account_combinations_dict[key][0][0] == '_NA_':
 			actual_account_type = user_account_combinations_dict[key][1][0]
 		else:
 			actual_account_type = user_account_combinations_dict[key][0][0]
 		
 		for idx in user_account_combinations_idx_dict[key]:
-			#print idx , actual_account_type
 			account_type_rectified.at[idx, 'AccountType'] = actual_account_type
 		
 	
-	#Appending _NA_ accounts to rectified account dataframe
+	#Appending accounts having account number _NA_ (which were previously filtered out above) to rectified account dataframe
 	bank_sms_df_NA = bank_sms_df[bank_sms_df['AccountNo'] == '_NA_']
 	account_type_rectified = account_type_rectified.append(bank_sms_df_NA)
 

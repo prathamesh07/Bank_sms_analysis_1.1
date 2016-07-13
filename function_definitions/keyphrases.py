@@ -158,7 +158,14 @@ NEFT_keyphrases_list = []
 fp = open( "data_files/sms_classification_level2_keywords/financial/bank_level2_classification/transaction_instrument_keywords/NEFT",'r')
 for key in fp.read().split('\n'):
 	if key !="":
-		NEFT_keyphrases_list.append(str(key))	
+		NEFT_keyphrases_list.append(str(key))
+		
+IMPS_keyphrases_list = []
+fp = open( "data_files/sms_classification_level2_keywords/financial/bank_level2_classification/transaction_instrument_keywords/IMPS",'r')
+for key in fp.read().split('\n'):
+	if key !="":
+		IMPS_keyphrases_list.append(str(key))
+	
 		
 		
 NetBanking_keyphrases_list = []
