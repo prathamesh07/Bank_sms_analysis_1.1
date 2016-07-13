@@ -199,6 +199,9 @@ money_re_list.append(re.compile(r'X\d+: (\d+.?\d*) \* USE'))
 money_re_list.append(re.compile(r"LEDG BAL \d+\.?\d{0,2}"))
 money_re_list.append(re.compile(r'BAL ?\W ?\d+\.?\d{0,2}'))
 
+money_re_utility_list = []
+#money_re_utility_list.append(re.compile(r"))
+
 reference_number_re_list = []
 
 reference_number_re_list.append(re.compile(r"REFERENCE NUMBER IS:([A-Z0-9]+)",re.IGNORECASE))
@@ -220,10 +223,41 @@ reference_number_re_list.append(re.compile(r"REF\. No\. [A-Za-z]+ IS:(\d+)"))
 reference_number_re_list.append(re.compile(r"REF ID ([A-Z0-9-]+)"))
 reference_number_re_list.append(re.compile(r"REF:? ?([A-Z0-9-]+)"))
 reference_number_re_list.append(re.compile(r"MMT\*(\d+)\*\*"))
-# reference_number_re_list.append(re.compile(r""))
-# reference_number_re_list.append(re.compile(r""))
-# reference_number_re_list.append(re.compile(r""))
-# reference_number_re_list.append(re.compile(r""))
+
+
+reference_number_utility_re_list = []
+
+reference_number_utility_re_list.append(re.compile(r"AIRTEL MOBILE (\d{10,12})"))
+reference_number_utility_re_list.append(re.compile(r"TELEPHONE NO(\d{8,10,11})"))
+reference_number_utility_re_list.append(re.compile(r"TELEPHONE NO\. (\d{8,10,11})"))
+
+reference_number_utility_re_list.append(re.compile(r"PHOTON (\d{10})"))
+reference_number_utility_re_list.append(re.compile(r"PHOTON NO\.(\d{10})"))
+reference_number_utility_re_list.append(re.compile(r"PHOTON NO (\d{10})"))
+reference_number_utility_re_list.append(re.compile(r"PHOTON NO\. (\d{10})"))
+reference_number_utility_re_list.append(re.compile(r"PHOTON NUMBER (\d{10})"))
+reference_number_utility_re_list.append(re.compile(r"TEL\_NO (\d{8}) "))
+reference_number_utility_re_list.append(re.compile(r"ACCOUNT NO (\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"ACCOUNT NO\.(\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"ACCOUNT NO\. (\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"A/C NO\. (\d{9,}) "))
+
+reference_number_utility_re_list.append(re.compile(r"ENERGY BILL FOR CA (\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"ENERGY BILL FOR CA(\d{9,}) "))
+
+reference_number_utility_re_list.append(re.compile(r"ENERGY BILL FOR A/C \# (\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"MOBILE NO (\d{10,12}) "))
+reference_number_utility_re_list.append(re.compile(r" TATA SKY ID (\d{10}) "))
+reference_number_utility_re_list.append(re.compile(r"MOBILE PHONE (\d{10,12})"))
+reference_number_utility_re_list.append(re.compile(r"SUB ID (\d{10,}) "))
+reference_number_utility_re_list.append(re.compile(r"MOBILE NUMBER (\d{10,12})"))
+reference_number_utility_re_list.append(re.compile(r"ACCOUNT NUMBER (\d{9,}) "))
+reference_number_utility_re_list.append(re.compile(r"FOR (\d{10,12}) AT THE VODAFONE"))
+reference_number_utility_re_list.append(re.compile(r"ON (\d{10,12})"))
+reference_number_utility_re_list.append(re.compile(r"ON YOUR NUMBER (\d{10,12}) "))
+reference_number_utility_re_list.append(re.compile(r"ID ([0-9]+)"))
+reference_number_utility_re_list.append(re.compile(r"ID([0-9]+)"))
+
 
 
 regex = {}
@@ -234,6 +268,7 @@ regex['credit_vendor_regex'] = credit_vendor_re_list
 regex['money_regex'] = money_re_list
 regex['junk_regex'] = junk_re_list
 regex['reference_number_regex'] = reference_number_re_list
+regex['reference_number_utility_regex'] = reference_number_utility_re_list
 
 
 

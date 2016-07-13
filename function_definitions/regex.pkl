@@ -870,77 +870,236 @@ p435
 I0
 tp436
 Rp437
-asS'money_regex'
+asS'reference_number_utility_regex'
 p438
 (lp439
 g3
-(S'(?:^| |:|\\W)(?:INR|RS|USD|SGD)\\W?\\W?\\d+\\.?\\d{0,2}'
+(S'AIRTEL MOBILE (\\d{10,12})'
 p440
 I0
 tp441
 Rp442
 ag3
-(S'(?:BALANCE ?I?S?:? | IS:? ?)\\W?\\W?\\d+\\.?\\d{0,2}'
+(S'TELEPHONE NO(\\d{8,10,11})'
 p443
 I0
 tp444
 Rp445
 ag3
-(S'(?:^| |:|\\W)\\d+\\.?\\d{0,2} (?:INR|RS|USD|SGD)'
+(S'TELEPHONE NO\\. (\\d{8,10,11})'
 p446
 I0
 tp447
 Rp448
 ag3
-(S'BALANCE ?I?S?:? \\W?\\W?\\d+\\.?\\d{0,2}'
+(S'PHOTON (\\d{10})'
 p449
 I0
 tp450
 Rp451
 ag3
-(S'X\\d+: (\\d+.?\\d*) \\* USE'
+(S'PHOTON NO\\.(\\d{10})'
 p452
 I0
 tp453
 Rp454
 ag3
-(S'LEDG BAL \\d+\\.?\\d{0,2}'
+(S'PHOTON NO (\\d{10})'
 p455
 I0
 tp456
 Rp457
 ag3
-(S'BAL ?\\W ?\\d+\\.?\\d{0,2}'
+(S'PHOTON NO\\. (\\d{10})'
 p458
 I0
 tp459
 Rp460
-asS'debit_2_vendor_regex'
+ag3
+(S'PHOTON NUMBER (\\d{10})'
 p461
-(lp462
+I0
+tp462
+Rp463
+ag3
+(S'TEL\\_NO (\\d{8}) '
+p464
+I0
+tp465
+Rp466
+ag3
+(S'ACCOUNT NO (\\d{9,}) '
+p467
+I0
+tp468
+Rp469
+ag3
+(S'ACCOUNT NO\\.(\\d{9,}) '
+p470
+I0
+tp471
+Rp472
+ag3
+(S'ACCOUNT NO\\. (\\d{9,}) '
+p473
+I0
+tp474
+Rp475
+ag3
+(S'A/C NO\\. (\\d{9,}) '
+p476
+I0
+tp477
+Rp478
+ag3
+(S'ENERGY BILL FOR CA(\\d{9,}) '
+p479
+I0
+tp480
+Rp481
+ag3
+(S'ENERGY BILL FOR A/C \\# (\\d{9,}) '
+p482
+I0
+tp483
+Rp484
+ag3
+(S'MOBILE NO (\\d{10,12}) '
+p485
+I0
+tp486
+Rp487
+ag3
+(S' TATA SKY ID (\\d{10}) '
+p488
+I0
+tp489
+Rp490
+ag3
+(S'MOBILE PHONE (\\d{10,12})'
+p491
+I0
+tp492
+Rp493
+ag3
+(S'SUB ID (\\d{10,}) '
+p494
+I0
+tp495
+Rp496
+ag3
+(S'MOBILE NUMBER (\\d{10,12})'
+p497
+I0
+tp498
+Rp499
+ag3
+(S'ACCOUNT NUMBER (\\d{9,}) '
+p500
+I0
+tp501
+Rp502
+ag3
+(S'FOR (\\d{10,12}) AT THE VODAFONE'
+p503
+I0
+tp504
+Rp505
+ag3
+(S'ON (\\d{10,12})'
+p506
+I0
+tp507
+Rp508
+ag3
+(S'ON YOUR NUMBER (\\d{10,12}) '
+p509
+I0
+tp510
+Rp511
+ag3
+(S'ID ([0-9]+)'
+p512
+I0
+tp513
+Rp514
+ag3
+(S'ID([0-9]+)'
+p515
+I0
+tp516
+Rp517
+asS'money_regex'
+p518
+(lp519
+g3
+(S'(?:^| |:|\\W)(?:INR|RS|USD|SGD)\\W?\\W?\\d+\\.?\\d{0,2}'
+p520
+I0
+tp521
+Rp522
+ag3
+(S'(?:BALANCE ?I?S?:? | IS:? ?)\\W?\\W?\\d+\\.?\\d{0,2}'
+p523
+I0
+tp524
+Rp525
+ag3
+(S'(?:^| |:|\\W)\\d+\\.?\\d{0,2} (?:INR|RS|USD|SGD)'
+p526
+I0
+tp527
+Rp528
+ag3
+(S'BALANCE ?I?S?:? \\W?\\W?\\d+\\.?\\d{0,2}'
+p529
+I0
+tp530
+Rp531
+ag3
+(S'X\\d+: (\\d+.?\\d*) \\* USE'
+p532
+I0
+tp533
+Rp534
+ag3
+(S'LEDG BAL \\d+\\.?\\d{0,2}'
+p535
+I0
+tp536
+Rp537
+ag3
+(S'BAL ?\\W ?\\d+\\.?\\d{0,2}'
+p538
+I0
+tp539
+Rp540
+asS'debit_2_vendor_regex'
+p541
+(lp542
 g113
 ag3
 (S' BENEFICIARY : ?(.+?) ?ON'
-p463
+p543
 I0
-tp464
-Rp465
+tp544
+Rp545
 ag3
 (S'ISSUE,(.+?) TOT '
-p466
+p546
 I0
-tp467
-Rp468
+tp547
+Rp548
 ag3
 (S' FOR (.+?) TXN '
-p469
+p549
 I0
-tp470
-Rp471
+tp550
+Rp551
 ag3
 (S'^(.+?) TRANSACTION '
-p472
+p552
 I0
-tp473
-Rp474
+tp553
+Rp554
 as.

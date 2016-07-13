@@ -1,22 +1,26 @@
-from keyphrases_utility import Telecom_keyphrases_list
-from keyphrases_utility import DTH_keyphrases_list
-from keyphrases_utility import Internet_keyphrases_list
 from keyphrases_utility import Electricity_keyphrases_list
 from keyphrases_utility import Gas_keyphrases_list
 from keyphrases_utility import Home_Services_keyphrases_list
+from keyphrases_utility import Telecom_keyphrases_list
 from keyphrases_utility import Water_keyphrases_list
-'''from keyphrases import Debit_2_keyphrases_list
-from keyphrases import Balance_keyphrases_list
-from keyphrases import Credit_keyphrases_list
-from keyphrases import OTP_keyphrases_list
-from keyphrases import Payment_Due_keyphrases_list
-from keyphrases import Info_keyphrases_list
-from keyphrases import Minimum_balance_keyphrases_list
-from keyphrases import Warning_keyphrases_list
-from keyphrases import Acknowledge_keyphrases_list
-from keyphrases import Advert_keyphrases_list
+from keyphrases_utility import DTH_keyphrases_list
 
+from keyphrases_utility import Mobile_keyphrases_list
+from keyphrases_utility import Internet_keyphrases_list
+from keyphrases_utility import Landline_keyphrases_list
 
+from keyphrases_utility import OTP_keyphrases_list
+from keyphrases_utility import Payment_Due_keyphrases_list
+from keyphrases_utility import Info_keyphrases_list
+from keyphrases_utility import Warning_keyphrases_list
+from keyphrases_utility import Balance_keyphrases_list
+from keyphrases_utility import Acknowledge_keyphrases_list
+from keyphrases_utility import Advert_keyphrases_list
+
+from keyphrases_utility import Payment_Done_keyphrases_list
+from keyphrases_utility import Recharge_keyphrases_list
+
+'''
 from keyphrases import CASA_keyphrases_list
 from keyphrases import Debit_Card_keyphrases_list
 from keyphrases import Credit_Card_keyphrases_list
@@ -31,22 +35,24 @@ from keyphrases import Cheque_keyphrases_list
 from keyphrases import Account_Number_False_Alarm_keyphrases_list'''
 # Basically all the functions use keys from 'keyphrases' file and return true if the message has any of thoes key phrases
 
+
 def isDTH(message):
 	global DTH_keyphrases_list
+	isin = False
 	for key in DTH_keyphrases_list:
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
+		key = key.split('\n')
+		truthvalue = [keyword in message for keyword in key ]
 		if False not in truthvalue :
 			return True 
 
-	return False 
+	return False
 
 def isElectricity(message):
 	global Electricity_keyphrases_list
 	isin = False 
 	for key in Electricity_keyphrases_list:
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
+		key = key.split('\n')
+		truthvalue = [keyword in message for keyword in key ]
 		if False not in truthvalue :
 			return True 
 
@@ -56,7 +62,7 @@ def isGas(message):
 	global Gas_keyphrases_list
 	isin = False 
 	for key in Gas_keyphrases_list:
-		key = key.split('|')
+		key = key.split('\n')
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
 			return True 
@@ -67,17 +73,7 @@ def isHomeService(message):
 	global Home_Services_keyphrases_list
 	isin = False 
 	for key in Home_Services_keyphrases_list:
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
-		if False not in truthvalue :
-			return True 
-
-	return False 
-
-def isInternet(message):
-	global Internet_keyphrases_list
-	for key in Internet_keyphrases_list:
-		key = key.split('|')
+		key = key.split('\n')
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
 			return True 
@@ -89,7 +85,7 @@ def isTelecom(message):
 	global Telecom_keyphrases_list
 	isin = False 
 	for key in Telecom_keyphrases_list:
-		key = key.split('|')
+		key = key.split('\n')
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
 			return True 
@@ -98,15 +94,49 @@ def isTelecom(message):
 
 def isWater(message):
 	global Water_keyphrases_list
+	isin = False 
 	for key in Water_keyphrases_list:
-		key = key.split('|')
+		key = key.split('\n')
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
 			return True 
 
 	return False 
 
-'''def isBalance(message):
+def isMobile(message):
+	global Mobile_keyphrases_list
+	isin = False 
+	for key in Mobile_keyphrases_list:
+		key = key.split('\n')
+		truthvalue = [keyword in message for keyword in key]
+		if False not in truthvalue :
+			return True 
+
+	return False 
+
+def isInternet(message):
+	global Internet_keyphrases_list
+	isin = False 
+	for key in Internet_keyphrases_list:
+		key = key.split('\n')
+		truthvalue = [keyword in message for keyword in key]
+		if False not in truthvalue :
+			return True 
+
+	return False 
+
+def isLandline(message):
+	global Landline_keyphrases_list
+	isin = False 
+	for key in Landline_keyphrases_list:
+		key = key.split('\n')
+		truthvalue = [keyword in message for keyword in key]
+		if False not in truthvalue :
+			return True 
+
+	return False 
+
+def isBalance(message):
 	global Balance_keyphrases_list
 	for key in Balance_keyphrases_list:
 		key = key.split('|')
@@ -197,10 +227,10 @@ def isAcknowledge(message):
 
 
 
-def isCASA(message):
+def isRecharge(message):
 	message = message.upper()
-	global CASA_keyphrases_list
-	for key in CASA_keyphrases_list :
+	global Recharge_keyphrases_list
+	for key in Recharge_keyphrases_list :
 		key = key.split('|')
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
@@ -209,10 +239,10 @@ def isCASA(message):
 	return False 	
 
 
-def isDebit_Card(message):
+def isPaymentDone(message):
 	message = message.upper()
-	global Debit_Card_keyphrases_list
-	for key in Debit_Card_keyphrases_list :
+	global Payment_Done_keyphrases_list
+	for key in Payment_Done_keyphrases_list:
 		#key = key.upper()
 		key = key.split('|')
 		truthvalue = [keyword in message for keyword in key]
@@ -222,56 +252,10 @@ def isDebit_Card(message):
 	return False 	
 
 
-def isCredit_Card(message):
-	message = message.upper()
-	global Credit_Card_keyphrases_list
-	for key in Credit_Card_keyphrases_list :
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
-		if False not in truthvalue :
-			return True 
-
-	return False 	
-
-def isWallet(message):
-	message = message.upper()
-	global Wallet_keyphrases_list
-	for key in Wallet_keyphrases_list :
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
-		if False not in truthvalue :
-			return True 
-
-	return False 	
-	
-def isPrepaid_Card(message):
-	message = message.upper()
-	global Prepaid_Card_keyphrases_list
-	for key in Prepaid_Card_keyphrases_list :
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
-		if False not in truthvalue :
-			return True 
-
-	return False
-	
-
-def isLoan(message):
-	message = message.upper()
-	global Loan_keyphrases_list
-	for key in Loan_keyphrases_list :
-		key = key.split('|')
-		truthvalue = [keyword in message for keyword in key]
-		if False not in truthvalue :
-			return True 
-
-	return False
-
-
-def isAccount_Number_False_Alarm(message):
 	global Account_Number_False_Alarm_keyphrases_list
 	for key in Account_Number_False_Alarm_keyphrases_list :
 		key = key.split('|')
+
 		truthvalue = [keyword in message for keyword in key]
 		if False not in truthvalue :
 			return True 
@@ -308,5 +292,3 @@ def isCheque(message):
 			return True 
 
 	return False
-
-'''

@@ -2,22 +2,26 @@ import re
 
 from checkers_utility import isDTH
 from checkers_utility import isTelecom
-from checkers_utility import isInternet
 from checkers_utility import isElectricity
 from checkers_utility import isGas
 from checkers_utility import isHomeService
 from checkers_utility import isWater
-'''from checkers import isDebit_2
-from checkers import isCredit
-from checkers import isBalance
-from checkers import isOTP
-from checkers import isMin_balance
-from checkers import isInfo
-from checkers import isPayment_due
-from checkers import isAdvert
-from checkers import isWarning
-from checkers import isAcknowledge
 
+from checkers_utility import isMobile
+from checkers_utility import isInternet
+from checkers_utility import isLandline
+
+from checkers_utility import isOTP
+from checkers_utility import isBalance
+from checkers_utility import isInfo
+from checkers_utility import isPayment_due
+from checkers_utility import isWarning
+from checkers_utility import isAcknowledge
+from checkers_utility import isAdvert
+
+from checkers_utility import isRecharge
+from checkers_utility import isPaymentDone
+'''
 from checkers import isCASA
 from checkers import isDebit_Card
 from checkers import isCredit_Card
@@ -39,9 +43,11 @@ from regex_extractor_from_pickle import credit_vendor_re_list
 from regex_extractor_from_pickle import junk_re_list
 '''
 from regex_extractor_from_pickle import money_re_list
-from regex_extractor_from_pickle import reference_number_re_list
+from regex_extractor_from_pickle import reference_number_utility_re_list
 
 from all_dict_generator import utilities_dict
+
+#print utilities_dict
 
 number = re.compile(r'\d') # regular expression for a single digit 
 amount_re = re.compile(r'\d+.?\d{0,2}') 
@@ -93,42 +99,67 @@ def getMoney(message,category):	# returns upto 3 sets of amount and currency if 
 	return Currency+Amount # returns a list of currency and corresponding actual amounts '''
 
 
-def getCategory(message): # simple method that just uses the methods from checkers file to return the category of the message
+def getUtilityType(message): # simple method that just uses the methods from checkers file to return the category of the message
 	message = str(message)
-	#print(message[:10])
 	if isDTH(message):
 		return "DTH"
 	if isElectricity(message):
-		return "Electricity"
+		return "ELECTRICITY"
 	if isGas(message):
-		return "Gas"
+		return "GAS"
 	if isHomeService(message):
-		return "Home_Service"
+		return "HOME SERVICE"
 	if isTelecom(message) :
-		return "Telecom"
-	if isInternet(message) :
-		return "Internet"
+		return "TELECOM"
 	if isWater(message):
-		return "Water"
+		return "WATER"
 	else :
-		return "None"
+		return "_NA_"
 
-'''def getUtilityType(message): # simple method that just uses the methods from checkers file to return the Account_type of the message
-	if isDebit_Card(message):
-		return "Debit_Card"
-	if isCredit_Card(message):
-		return "Credit_Card"
-	if isCASA(message):
-		return "CASA"
-	if isWallet(message) :
-		return 'Wallet'
-	if isPrepaid_Card(message):
-		return 'Prepaid_Card'
-	if isLoan(message):
-		return 'Loan'
+		
+def getTelecomType(message):
+	message= str(message)
+	if isTelecom(message):
+		if isMobile(message):
+			return "MOBILE"
+		if isInternet(message):
+			return "INTERNET"
+		if isLandline(message):
+			return "LANDLINE"
+		else:
+			return " "
+	
+	
+def getPaymentInfo(message):
+	if isRecharge(message):
+		return "RECHARGE"
+	if isPaymentDone(message):
+		return "PAYMENT DONE"
+	if isPayment_due(message):
+		return "PAYMENT DUE"
 	else:
 		return "_NA_"
-		'''
+	
+		
+		
+def getMessageType(message): # simple method that just uses the methods from checkers file to return the Account_type of the message
+	if isOTP(message):
+		return "OTP"
+	if isBalance(message):
+		return "BALANCE"
+	if isPayment_due(message) :
+		return 'PAYMENT DUE'
+	if isInfo(message):
+		return "INFO"
+	if isAcknowledge(message):
+		return "ACK"
+	if isAdvert(message):
+		return "ADVERTISEMENT"
+	if isWarning(message):
+		return "WARNING"
+	else :
+		return "_NA_"
+		
 
 
 
@@ -208,15 +239,16 @@ def getSenderName(message_source): # returns the bank name from the sms senders 
 	
 def getReferenceNumber(message):	# returns the reference number in the message if present 
 	#message = message.replace('/','')
-	global reference_number_re_list 
-	for pattern in reference_number_re_list :
+	global reference_number_utility_re_list 
+	for pattern in reference_number_utility_re_list :
 		search_object = re.search(pattern,message) 
 		if search_object : 												
 			ref_no =search_object.group(1)
 			if re.search(number,ref_no): 	 # the reference number must contain atleast 1 numerical/digit
 				return ref_no 
+			else :
+				return "_NA_"
 	return "_NA_"
-	
 	
 	
 '''def getTxnInstrument(message):				# returns the transection instrument
@@ -238,35 +270,33 @@ def getReferenceNumber(message):	# returns the reference number in the message i
 
 	
 def getData(message): # this is the main method that retuns all the data as a list with the help of above functions
-	global debit_vendor_re_list
-	global debit_2_vendor_re_list
-	global credit_vendor_re_list
-	global nonalpha
-	global junk_re_list
-
 	message = str(message)
 	message = message.replace('\n','')
 
 
 	#account_number = getAccountNumber(message)
-	category  = getCategory(message)
-	money_currency = getMoney(message,category)
+	sender_name = getSenderName(message)
+	UtilType  = getUtilityType(message)
+	msg_type = getMessageType(message)
+
+	money_currency = getMoney(message,msg_type)
 	#trensection_source = getTransactionSource(message,category)
-	#account_type = getAccountType(message)
 	reference_number = getReferenceNumber(message)
 	#txn_instrument = getTxnInstrument(message)
+	telecomType = getTelecomType(message)
+	info = getPaymentInfo(message)
 
-	return [category] + [money_currency[0]] + [money_currency[3]]+ [money_currency[1]]+ [money_currency[4]]+ [money_currency[2]]+ [money_currency[5]]+ [reference_number]
+	return  [money_currency[0]] + [money_currency[3]]+ [money_currency[1]]+ [money_currency[4]]+ [money_currency[2]]+ [money_currency[5]] + [reference_number]+[msg_type] + [info]
 
 
-'''def getBankDetails(message_source): # returns the bank name from the sms senders ID
-	global bank_dict
+def getUtilityDetails(message_source): # returns the bank name from the sms senders ID
+	global utilities_dict
 	message_source = str(message_source)[3:].upper()[:6]
-	if message_source in bank_dict:
-		bank_det = bank_dict[message_source]
+	if message_source in utilities_dict:
+		utility_det = utilities_dict[message_source]
 	else :
-		bank_det = "_NA_"
+		utility_det = "_NA_"
 
 		
-	return bank_det'''
+	return utility_det
 
