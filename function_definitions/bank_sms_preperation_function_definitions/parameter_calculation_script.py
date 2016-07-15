@@ -42,6 +42,7 @@ def getPercentOfTxns(TotalDebitTxns, TotalCreditTxns):
 		PercentOfDebitTxns = 0
 		PercentOfCreditTxns = 0
 	return (PercentOfDebitTxns, PercentOfCreditTxns)
+
 	
 def getNetTxnAmt(l):
 	global bank_sms_filtered_flaged
@@ -49,6 +50,7 @@ def getNetTxnAmt(l):
 	for i in l:
 		NetTxnAmt += float(bank_sms_filtered_flaged.at[i, 'TxnAmount'])
 	return NetTxnAmt
+
 	
 def getMaxMinBalance(l):
 	global bank_sms_filtered_flaged

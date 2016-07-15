@@ -56,7 +56,6 @@ casa_parameter_data = parameter_calculation_func(bank_sms_df,'CASA')
 casa_parameter_data = post_parameter_calculation_func(casa_parameter_data,'CASA')
 
 
-
 #Calculating some Credit_Card parameters 
 credit_parameter_data = parameter_calculation_func(bank_sms_df,'Credit_Card')
 
